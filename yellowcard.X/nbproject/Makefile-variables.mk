@@ -4,7 +4,19 @@
 # NOCDDL
 #
 CND_BASEDIR=`pwd`
-# default configuration
-CND_ARTIFACT_DIR_default=dist/default/production
-CND_ARTIFACT_NAME_default=yellowcard.X.production.hex
-CND_ARTIFACT_PATH_default=dist/default/production/yellowcard.X.production.hex
+# basestation_production configuration
+CND_ARTIFACT_DIR_basestation_production=dist/basestation_production/production
+CND_ARTIFACT_NAME_basestation_production=yellowcard.X.production.hex
+CND_ARTIFACT_PATH_basestation_production=dist/basestation_production/production/yellowcard.X.production.hex
+# basestation_development configuration
+CND_ARTIFACT_DIR_basestation_development=dist/basestation_development/production
+CND_ARTIFACT_NAME_basestation_development=yellowcard.X.production.hex
+CND_ARTIFACT_PATH_basestation_development=dist/basestation_development/production/yellowcard.X.production.hex
+# sensornode_production configuration
+CND_ARTIFACT_DIR_sensornode_production=dist/sensornode_production/production
+CND_ARTIFACT_NAME_sensornode_production=yellowcard.X.production.hex
+CND_ARTIFACT_PATH_sensornode_production=dist/sensornode_production/production/yellowcard.X.production.hex
+# sensornode_development configuration
+CND_ARTIFACT_DIR_sensornode_development=dist/sensornode_development/production
+CND_ARTIFACT_NAME_sensornode_development=yellowcard.X.production.hex
+CND_ARTIFACT_PATH_sensornode_development=dist/sensornode_development/production/yellowcard.X.production.hex

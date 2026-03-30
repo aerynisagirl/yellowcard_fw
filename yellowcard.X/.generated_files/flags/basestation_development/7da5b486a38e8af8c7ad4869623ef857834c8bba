@@ -1,0 +1,1 @@
+ $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -fno-common -D__BUILD_DEVELOPMENT__ -D__IS_BASESTATION__   -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  C:\Users\Aeryn\Documents\RF Project\git_repos\yellowcard_fw\yellowcard.X\src\Application.c
