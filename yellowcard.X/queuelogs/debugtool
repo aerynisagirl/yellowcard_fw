@@ -1,0 +1,10 @@
+4064 1773592568153 XXXX 1773592568151, Thread 4064: com.Send returned false 
+4064 1773592568155 XXXX 1773592568155, Thread 4064: readTransfer: exception after writeHeaderAndGetAck null 
+4064 1773592568159 XXXX 1773592568159, Thread 4064: XXXX 1773592568159, Entering Thread 4064: ToolCommUsb::recoverFromProtocolError, type = NO_SCRIPT  
+4064 1773592568164 XXXX 1773592568163, Thread 4064: Send Abort Script Engine Command 
+4064 1773592568164 XXXX 1773592568164, Thread 4064: XXXX 1773592568164, Entering Thread 4064: ToolCommUsb::killScriptEngine  
+4064 1773592568192 XXXX 1773592568192, Thread 4064: com.Send returned false 
+4064 1773592568193 XXXX 1773592568192, Thread 4064: Failed sending Abort Script Engine Command. Set nuclear option = true 
+4064 1773592568193 XXXX 1773592568193, Thread 4064: About to nuke 
+4064 1773592568193 XXXX 1773592568193, Thread 4064: XXXX 1773592568193, Entering Thread 4064: ToolCommUsb::nuclearOption  
+4064 1773592568203 XXXX 1773592568203, Thread 4064: com.Send returned false 

@@ -1,0 +1,51 @@
+TODO:
+- SIN number change
+- Cancel dads internet
+- OSAP application
+- find housing
+- 
+
+
+
+Variable
+-------------    
+dataBuffer[0]     0x0E        0x10    c0
+dataBuffer[1]     0x1E        0x11    c0/c1
+dataBuffer[2]     0xDC        0x12    c1
+dataBuffer[3]     0x14        0x13    c00
+dataBuffer[4]     0x1B        0x14    c00
+dataBuffer[5]     0x9F        0x15    c00/c10
+dataBuffer[6]     0x2B        0x16    c10
+dataBuffer[7]     0xBA        0x17    c10
+dataBuffer[8]     0xF5        0x18    c01
+dataBuffer[9]     0x50        0x19    c01
+dataBuffer[10]    0x04        0x1A    c11
+dataBuffer[11]    0x94        0x1B    c11
+dataBuffer[12]    0xD9        0x1C    c20
+dataBuffer[13]    0x21        0x1D    c20
+dataBuffer[14]    0xFF        0x1E    c21
+dataBuffer[15]    0xF7        0x1F    c21
+dataBuffer[16]    0xFA        0x20    c30
+dataBuffer[17]    0x88        0x21    c30
+
+
+
+c0     0x0E1
+c1     0xEDC
+c00    0x141B9
+c10    0xF2BBA
+c01    0xF550
+c11    0x0494
+c20    0xD921
+c21    0xFFF7
+c30    0xFA88
+
+
+
+
+
+
+
+
+5C30    23600
+5B6C    23404
