@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<project>                                  
+  <executable name="dist/production/debug/base-station_yellowcard.X.debug.elf">                 
+    <memory name="program">                 
+      <units>bytes</units>                 
+      <length>33936</length>                 
+      <used>16088</used>                     
+      <free>17848</free>                     
+    </memory>                              
+    <memory name="data">              
+      <units>bytes</units>                 
+      <length>8704</length>                 
+      <used>2395</used>                     
+      <free>6309</free>                     
+    </memory>                              
+  </executable>                            
+</project>                                 

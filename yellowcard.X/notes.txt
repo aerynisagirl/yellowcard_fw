@@ -1,0 +1,386 @@
+initializeSSD1803A()        1016 bytes
+printStringSSD1803A()       180 bytes
+
+
+
+
+txAttempts = 3
+
+    START_TX
+txAttempts = 2
+    START_RX
+    RX_TIMEOUT
+    START_TX
+txAttempts = 1
+    START_RX
+    RX_TIMEOUT
+    START_TX
+txAttempts = 0
+    
+
+
+
+
+
+
+
+
+
+
+
+        Attempt 1
+
+Init Sequence
+
+0x38 -> Function set
+0x38 -> Function set
+
+    RE = 0, IS = 0
+0x01 -> Clear display
+0x05 -> Entry mode set, shift enabled
+0xC0 ->                                                 ERROR:  invalid command, enum DISPLAY_ON_NO_CURSOR should be fixed
+0x80
+0x3B
+0x10
+0x38
+0x1B
+0x56
+0x6C
+0x3A
+0x05
+0x12
+0x09
+0x03
+0x38
+
+
+
+        Attempt 2
+
+Init Sequence
+
+0x38 -> Function set
+0x38 -> Function set
+
+    RE = 0, IS = 0
+0x01 -> Clear display
+0x05 -> Entry mode set, shift enabled
+0x0C -> Display On/Off, display on without cursor
+0x80 -> Set scroll quantity to 0                        ERROR:  needs RE = 1
+
+
+
+        Attempt 3
+
+Init Sequence
+
+0x38 -> Function set
+0x38 -> Function set
+
+    RE = 0, IS = 0
+0x01 -> Clear display
+0x05 -> Entry mode set, shift enabled
+0x0C -> Display on/off, display on with no cursor
+0x3B -> Function set, select instruction registers
+
+    RE = 1, IS = 1
+0x80 -> Set scroll quantity
+0x10 -> Scroll enable, disable scrolling on all lines
+0x38 -> Function set, select special instruction registers
+
+    RE = 0, IS = 1
+0x1B -> Internal OSC frequency, change BS0 to 1
+0x56 -> Power control/contrast, enable the boost converter
+0x6C -> Follower control, enable the internal bias amplifier
+0x3A -> Function set, swap from special to extended registers
+
+    RE = 1, IS = 0
+0x05 -> Entry mode set, change display viewing angle                            ERROR:  move this to a different location i think, perhaps  right before scroll quantity
+
+
+
+        Attempt 4
+
+Init Sequence
+
+0x38 -> Function set
+0x38 -> Function set
+
+    RE = 0, IS = 0
+0x01 -> Clear display
+0x05 -> Entry mode set, shift enabled
+0x0C -> Display on/off, display on with no cursor
+0x3B -> Function set, select instruction registers
+
+    RE = 1, IS = 1
+0x80 -> Set scroll quantity
+0x10 -> Scroll enable, disable for all lines
+0x06 -> Entry mode set, change display orientation
+0x38 -> Function set, select special instruction registers
+
+    RE = 0, IS = 1
+0x1B -> Internal OSC frequency, change BS0 to 1
+0x56 -> Power control/contrast, enable the boost converter
+0x6C -> Follower control, enable the internal bias amplifier
+0x3A -> Function set, swap from special to extended registers
+
+    RE = 1, IS = 0
+0x12 -> Double height/bias, change BS1 to 1, no double height
+0x09 -> Extended function set, enable 4 line mode
+0x03 -> Power down mode, enabled                                                ERROR:  this should not be enabled!!!
+
+
+
+        Attempt 5
+
+Init Sequence
+
+0x38 -> Function set
+0x38 -> Function set
+
+    RE = 0, IS = 0
+0x01 -> Clear display
+0x05 -> Entry mode set, shift enabled
+0x0C -> Display on/off, display on with no cursor
+0x3B -> Function set, select instruction registers
+
+    RE = 1, IS = 1
+0x80 -> Set scroll quantity
+0x10 -> Scroll enable, disable for all lines
+0x06 -> Entry mode set, change display orientation
+0x38 -> Function set, select special instruction registers
+
+    RE = 0, IS = 1
+0x1B -> Internal OSC frequency, change BS0 to 1
+0x56 -> Power control/contrast, enable the boost converter
+0x6C -> Follower control, enable the internal bias amplifier
+0x3A -> Function set, swap from special to extended registers
+
+    RE = 1, IS = 0
+0x12 -> Double height/bias, change BS1 to 1, no double height
+0x09 -> Extended function set, enable 4 line mode
+0x02 -> Power down mode, disabled
+0x38 -> Function set, select regular registers
+
+ERROR:  no display output, contrast setting is probably wrong?
+
+
+
+        Attempt 6
+
+Init Sequence
+
+0x38 -> Function set
+0x38 -> Function set
+
+    RE = 0, IS = 0
+0x01 -> Clear display
+0x05 -> Entry mode set, shift enabled
+0x0C -> Display on/off, display on with no cursor
+0x3B -> Function set, select instruction registers
+
+    RE = 1, IS = 1
+0x80 -> Set scroll quantity
+0x10 -> Scroll enable, disable for all lines
+0x06 -> Entry mode set, change display orientation
+0x38 -> Function set, select special instruction registers
+
+    RE = 0, IS = 1
+0x1B -> Internal OSC frequency, change BS0 to 1
+0x56 -> Power control/contrast, enable the boost converter
+0x6C -> Follower control, enable the internal bias amplifier
+0x7A -> Set contrast, reset contrast back to defaults
+0x3A -> Function set, swap from special to extended registers
+
+    RE = 1, IS = 0
+0x12 -> Double height/bias, change BS1 to 1, no double height
+0x09 -> Extended function set, enable 4 line mode
+0x02 -> Power down mode, disabled
+0x38 -> Function set, select regular registers
+
+ERROR:  Line count selection wasn't producing same output as example program given by datasheet
+
+
+
+        Attempt 7
+
+Init Sequence
+
+0x38 -> Function set
+0x3B -> Function set, extended and special regs
+
+    RE = 1, IS = 1
+0x80 -> Set scroll quantity, reset to 0
+0x10 -> Scroll enable, disable all lines
+0x06 -> Entry set, bottom viewing angle
+0x38 -> Function set, normal regs
+
+    RE = 0, IS = 0
+0x01 -> Clear display
+0x05 -> Entry set, shift enabled
+0x0C -> Display on/off, on with no cursor
+0x39 -> Function set, special regs
+
+    RE = 0, IS = 1
+0x1B -> Internal OSC frequency, change BS0 to 1
+0x56 -> Power control/contrast, enable the boost converter
+0x6C -> Follower control, enable internal bias amplifier
+0x70 -> Set contrast
+0x3A -> Function set, extended regs
+
+    RE = 1, IS = 0
+0x1E -> Double height/bias, change BS1 to 1, no double height
+0x09 -> Extended function set, enable 4 line mode
+0x02 -> Power down mode, disabled
+0x38 -> Function set, normal regs
+
+
+
+        Attempt 8
+
+Init Sequence
+
+    RE = ?, RE = ?
+0x38 -> Function Set
+0x38 -> Function Set
+
+    RE = 0, RE = 0
+0x01 -> Clear Display
+0x05 -> Entry Set, shift enabled
+0x0C -> Display On/Off, on with no cursor
+0x39 -> Function Set, special regs
+
+    RE = 0, IS = 1
+0x56 -> Power Control/Contrast, enable boost converter
+0x70 -> -Set Contrast
+0x1B -> Internal OSC Frequency, change BS0 to 1
+0x69 -> Follower Control, IR1
+0x3A -> Function Set, extended regs
+
+    RE = 1, IS = 0
+0x06 -> Entry Set, bottom viewing angle
+0x1E -> Double Height/Bias, change BS1 to 1, with with double height at bottom
+0x38 -> Function Set, regular registers
+
+    RE = 0, IS = 0
+0x02 -> Power Down Mode, disabled
+0x09 -> Extended Function Set, enable 4 line mode
+0x38 -> Function Set, DH = 0
+0x3C -> Function Set, DH = 1
+
+
+
+        Attempt 9
+
+Init Sequence
+
+    RE = ?, IS = ?
+0x38 -> Function Set
+0x3B -> Function set, special and extended regs
+
+    RE = 1, IS = 1
+0x80 -> Set Scroll Quantity, reset to 0
+0x10 -> Shift/Scroll Enable, disable for all lines
+0x38 -> Function Set, regular regs
+
+    RE = 0, IS = 0
+0x01 -> Clear Display
+0x05 -> Entry Set, shift enabled
+0x0C -> Display On/Off, on with no cursor
+0x39 -> Function Set, special regs
+
+    RE = 0, IS = 1
+0x56 -> Power Control/Contrast, enable boost converter
+0x70 -> Set Contrast
+0x1B -> Internal OSC Frequency, change BS0 to 1
+0x69 -> Follower Control, IR1
+0x3A -> Function Set, extended regs
+
+    RE = 1, IS = 0
+0x06 -> Entry Set, bottom viewing angle
+0x1E -> Double Height/Bias, change BS1 to 1, with with double height at bottom
+0x38 -> Function Set, regular registers
+
+    RE = 0, IS = 0
+0x02 -> Power Down Mode, disabled
+0x09 -> Extended Function Set, enable 4 line mode
+0x38 -> Function Set, DH = 0
+
+
+
+
+
+
+
+
+
+
+
+Comparison
+
+Old
+
+0x38
+0x38
+0x3B
+
+    RE = 1, IS = 1
+0x80 -> Set Scroll Quantity, 0
+0x10 -> Scroll/Shift Enable, disable for all lines
+0x06 -> Entry Set, bottom viewing angle
+0x38 -> Function Set
+
+    RE = 0, IS = 0
+0x01 -> Clear Display
+0x06 -> Entry Set, cursor moves right
+0x0C -> Display On/Off, on with no cursor
+0x39 -> Function Set
+
+    RE = 0, IS = 1
+0x1B -> Internal OSC Frequency, change BS0 to 1
+0x56 -> Power Control/Contrast, enable boost converter
+0x69 -> Follower Control, IR1
+0x70 -> Set Contrast
+0x3A -> Function Set
+
+    RE = 1, IS = 0
+0x12 -> Double Height/Bias
+0x09 -> Extended Function Set, enable 4 line mode
+0x02 -> Power Down Mode, disabled
+0x38 -> Function Set
+0x3C -> Function Set, DH = 1
+
+
+
+New
+
+    RE = ?, IS = ?
+0x38 -> Function Set
+0x38 -> Function Set
+
+    RE = 0, IS = 0
+0x01 -> Clear Display
+0x06 -> Entry Set, cursor moves right
+0x0C -> Display On/Off, on with no cursor
+0x39 -> Function Set
+
+    RE = 0, IS = 1
+0x56 -> Power Control/Contrast, enable boost converter
+0x70 -> Set Contrast
+0x1B -> Internal OSC Frequency, change BS0 to 1
+0x69 -> Follower Control, IR1
+0x3A -> Function Set
+
+    RE = 1, IS = 0
+0x06 -> Entry Set, bottom viewing angle
+0x12 -> Double Height/Bias, change BS1 to 1
+0x09 -> Extended Function Set, enable 4 line mode
+0x02 -> Power Down Mode, disabled
+0x38 -> Function Set
+
+    RE = 0, IS = 0
+
+
+
+
+

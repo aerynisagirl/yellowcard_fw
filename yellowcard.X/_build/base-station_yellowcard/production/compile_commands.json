@@ -1,0 +1,56 @@
+[
+{
+  "directory": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production",
+  "command": "c:\\PROGRA~1\\MICROC~1\\xc32\\v4.35\\bin\\xc32-gcc.exe -DXPRJ_production=production -D_BUILDTYPE_PROD=1 -D__DEBUG -D__MPLAB_DEBUGGER_PK5=1 -I\"C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/cmake/base-station_yellowcard/production/../../..\" -x c -g -x c -c -mprocessor=32MX120F032B -ffunction-sections -fomit-frame-pointer -fno-common -mdfp=C:/Users/Aeryn/.mchp_packs/Microchip/PIC32MX_DFP/1.5.259 -o CMakeFiles\\base_station_yellowcard_production_production_XC32_compile.dir\\f0902cd0b01c5fa7d11bc8606214553b\\src\\Interrupts.c.o -c \"C:\\Users\\Aeryn\\Documents\\RF Project\\local\\yellowcard fw\\base-station.X\\src\\Interrupts.c\"",
+  "file": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/src/Interrupts.c",
+  "output": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production/CMakeFiles/base_station_yellowcard_production_production_XC32_compile.dir/f0902cd0b01c5fa7d11bc8606214553b/src/Interrupts.c.o"
+},
+{
+  "directory": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production",
+  "command": "c:\\PROGRA~1\\MICROC~1\\xc32\\v4.35\\bin\\xc32-gcc.exe -DXPRJ_production=production -D_BUILDTYPE_PROD=1 -D__DEBUG -D__MPLAB_DEBUGGER_PK5=1 -I\"C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/cmake/base-station_yellowcard/production/../../..\" -x c -g -x c -c -mprocessor=32MX120F032B -ffunction-sections -fomit-frame-pointer -fno-common -mdfp=C:/Users/Aeryn/.mchp_packs/Microchip/PIC32MX_DFP/1.5.259 -o CMakeFiles\\base_station_yellowcard_production_production_XC32_compile.dir\\f0902cd0b01c5fa7d11bc8606214553b\\src\\Logging.c.o -c \"C:\\Users\\Aeryn\\Documents\\RF Project\\local\\yellowcard fw\\base-station.X\\src\\Logging.c\"",
+  "file": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/src/Logging.c",
+  "output": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production/CMakeFiles/base_station_yellowcard_production_production_XC32_compile.dir/f0902cd0b01c5fa7d11bc8606214553b/src/Logging.c.o"
+},
+{
+  "directory": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production",
+  "command": "c:\\PROGRA~1\\MICROC~1\\xc32\\v4.35\\bin\\xc32-gcc.exe -DXPRJ_production=production -D_BUILDTYPE_PROD=1 -D__DEBUG -D__MPLAB_DEBUGGER_PK5=1 -I\"C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/cmake/base-station_yellowcard/production/../../..\" -x c -g -x c -c -mprocessor=32MX120F032B -ffunction-sections -fomit-frame-pointer -fno-common -mdfp=C:/Users/Aeryn/.mchp_packs/Microchip/PIC32MX_DFP/1.5.259 -o CMakeFiles\\base_station_yellowcard_production_production_XC32_compile.dir\\16704d74be4b601d72203da87f43d6d0\\base-station.X\\src\\Main.c.o -c \"C:\\Users\\Aeryn\\Documents\\RF Project\\local\\yellowcard fw\\base-station.X\\src\\Main.c\"",
+  "file": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/src/Main.c",
+  "output": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production/CMakeFiles/base_station_yellowcard_production_production_XC32_compile.dir/16704d74be4b601d72203da87f43d6d0/base-station.X/src/Main.c.o"
+},
+{
+  "directory": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production",
+  "command": "c:\\PROGRA~1\\MICROC~1\\xc32\\v4.35\\bin\\xc32-gcc.exe -DXPRJ_production=production -D_BUILDTYPE_PROD=1 -D__DEBUG -D__MPLAB_DEBUGGER_PK5=1 -I\"C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/cmake/base-station_yellowcard/production/../../..\" -x c -g -x c -c -mprocessor=32MX120F032B -ffunction-sections -fomit-frame-pointer -fno-common -mdfp=C:/Users/Aeryn/.mchp_packs/Microchip/PIC32MX_DFP/1.5.259 -o CMakeFiles\\base_station_yellowcard_production_production_XC32_compile.dir\\f0902cd0b01c5fa7d11bc8606214553b\\src\\PacketStructures.c.o -c \"C:\\Users\\Aeryn\\Documents\\RF Project\\local\\yellowcard fw\\base-station.X\\src\\PacketStructures.c\"",
+  "file": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/src/PacketStructures.c",
+  "output": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production/CMakeFiles/base_station_yellowcard_production_production_XC32_compile.dir/f0902cd0b01c5fa7d11bc8606214553b/src/PacketStructures.c.o"
+},
+{
+  "directory": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production",
+  "command": "c:\\PROGRA~1\\MICROC~1\\xc32\\v4.35\\bin\\xc32-gcc.exe -DXPRJ_production=production -D_BUILDTYPE_PROD=1 -D__DEBUG -D__MPLAB_DEBUGGER_PK5=1 -I\"C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/cmake/base-station_yellowcard/production/../../..\" -x c -g -x c -c -mprocessor=32MX120F032B -ffunction-sections -fomit-frame-pointer -fno-common -mdfp=C:/Users/Aeryn/.mchp_packs/Microchip/PIC32MX_DFP/1.5.259 -o CMakeFiles\\base_station_yellowcard_production_production_XC32_compile.dir\\f0902cd0b01c5fa7d11bc8606214553b\\src\\drv\\DPS368\\DPS368.c.o -c \"C:\\Users\\Aeryn\\Documents\\RF Project\\local\\yellowcard fw\\base-station.X\\src\\drv\\DPS368\\DPS368.c\"",
+  "file": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/src/drv/DPS368/DPS368.c",
+  "output": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production/CMakeFiles/base_station_yellowcard_production_production_XC32_compile.dir/f0902cd0b01c5fa7d11bc8606214553b/src/drv/DPS368/DPS368.c.o"
+},
+{
+  "directory": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production",
+  "command": "c:\\PROGRA~1\\MICROC~1\\xc32\\v4.35\\bin\\xc32-gcc.exe -DXPRJ_production=production -D_BUILDTYPE_PROD=1 -D__DEBUG -D__MPLAB_DEBUGGER_PK5=1 -I\"C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/cmake/base-station_yellowcard/production/../../..\" -x c -g -x c -c -mprocessor=32MX120F032B -ffunction-sections -fomit-frame-pointer -fno-common -mdfp=C:/Users/Aeryn/.mchp_packs/Microchip/PIC32MX_DFP/1.5.259 -o CMakeFiles\\base_station_yellowcard_production_production_XC32_compile.dir\\f0902cd0b01c5fa7d11bc8606214553b\\src\\drv\\HAL.c.o -c \"C:\\Users\\Aeryn\\Documents\\RF Project\\local\\yellowcard fw\\base-station.X\\src\\drv\\HAL.c\"",
+  "file": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/src/drv/HAL.c",
+  "output": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production/CMakeFiles/base_station_yellowcard_production_production_XC32_compile.dir/f0902cd0b01c5fa7d11bc8606214553b/src/drv/HAL.c.o"
+},
+{
+  "directory": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production",
+  "command": "c:\\PROGRA~1\\MICROC~1\\xc32\\v4.35\\bin\\xc32-gcc.exe -DXPRJ_production=production -D_BUILDTYPE_PROD=1 -D__DEBUG -D__MPLAB_DEBUGGER_PK5=1 -I\"C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/cmake/base-station_yellowcard/production/../../..\" -x c -g -x c -c -mprocessor=32MX120F032B -ffunction-sections -fomit-frame-pointer -fno-common -mdfp=C:/Users/Aeryn/.mchp_packs/Microchip/PIC32MX_DFP/1.5.259 -o CMakeFiles\\base_station_yellowcard_production_production_XC32_compile.dir\\f0902cd0b01c5fa7d11bc8606214553b\\src\\drv\\SHT4x\\SHT4x.c.o -c \"C:\\Users\\Aeryn\\Documents\\RF Project\\local\\yellowcard fw\\base-station.X\\src\\drv\\SHT4x\\SHT4x.c\"",
+  "file": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/src/drv/SHT4x/SHT4x.c",
+  "output": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production/CMakeFiles/base_station_yellowcard_production_production_XC32_compile.dir/f0902cd0b01c5fa7d11bc8606214553b/src/drv/SHT4x/SHT4x.c.o"
+},
+{
+  "directory": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production",
+  "command": "c:\\PROGRA~1\\MICROC~1\\xc32\\v4.35\\bin\\xc32-gcc.exe -DXPRJ_production=production -D_BUILDTYPE_PROD=1 -D__DEBUG -D__MPLAB_DEBUGGER_PK5=1 -I\"C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/cmake/base-station_yellowcard/production/../../..\" -x c -g -x c -c -mprocessor=32MX120F032B -ffunction-sections -fomit-frame-pointer -fno-common -mdfp=C:/Users/Aeryn/.mchp_packs/Microchip/PIC32MX_DFP/1.5.259 -o CMakeFiles\\base_station_yellowcard_production_production_XC32_compile.dir\\eaf75ac4461230790cf924d14d06ab78\\drv\\SSD1803A\\SSD1803A.c.o -c \"C:\\Users\\Aeryn\\Documents\\RF Project\\local\\yellowcard fw\\base-station.X\\src\\drv\\SSD1803A\\SSD1803A.c\"",
+  "file": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/src/drv/SSD1803A/SSD1803A.c",
+  "output": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production/CMakeFiles/base_station_yellowcard_production_production_XC32_compile.dir/eaf75ac4461230790cf924d14d06ab78/drv/SSD1803A/SSD1803A.c.o"
+},
+{
+  "directory": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production",
+  "command": "c:\\PROGRA~1\\MICROC~1\\xc32\\v4.35\\bin\\xc32-gcc.exe -DXPRJ_production=production -D_BUILDTYPE_PROD=1 -D__DEBUG -D__MPLAB_DEBUGGER_PK5=1 -I\"C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/cmake/base-station_yellowcard/production/../../..\" -x c -g -x c -c -mprocessor=32MX120F032B -ffunction-sections -fomit-frame-pointer -fno-common -mdfp=C:/Users/Aeryn/.mchp_packs/Microchip/PIC32MX_DFP/1.5.259 -o CMakeFiles\\base_station_yellowcard_production_production_XC32_compile.dir\\f0902cd0b01c5fa7d11bc8606214553b\\src\\drv\\SX1231H\\SX1231H.c.o -c \"C:\\Users\\Aeryn\\Documents\\RF Project\\local\\yellowcard fw\\base-station.X\\src\\drv\\SX1231H\\SX1231H.c\"",
+  "file": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/src/drv/SX1231H/SX1231H.c",
+  "output": "C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production/CMakeFiles/base_station_yellowcard_production_production_XC32_compile.dir/f0902cd0b01c5fa7d11bc8606214553b/src/drv/SX1231H/SX1231H.c.o"
+}
+]

@@ -1,0 +1,7 @@
+{
+    "C_Cpp.default.compilerPath": "c:\\Program Files\\Microchip\\xc32\\v4.35\\bin\\xc32-gcc.exe",
+    "mplab.clangd.arguments": [
+        "--compile-commands-dir=${workspaceFolder}\\_build\\base-station_yellowcard\\production"
+    ],
+    "mplab.clangd.path": ""
+}
