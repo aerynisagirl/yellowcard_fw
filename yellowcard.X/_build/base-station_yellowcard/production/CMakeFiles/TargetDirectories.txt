@@ -1,5 +1,0 @@
-C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production/CMakeFiles/base_station_yellowcard_production_production_XC32_compile.dir
-C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production/CMakeFiles/base_station_yellowcard_production_image_s4_3rjbe.dir
-C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production/CMakeFiles/base_station_yellowcard_production_Bin2Hex.dir
-C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production/CMakeFiles/edit_cache.dir
-C:/Users/Aeryn/Documents/RF Project/local/yellowcard fw/base-station.X/_build/base-station_yellowcard/production/CMakeFiles/rebuild_cache.dir

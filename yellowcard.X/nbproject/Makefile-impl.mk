@@ -27,11 +27,11 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 PROJECTNAME=yellowcard.X
 
 # Active Configuration
-DEFAULTCONF=default
+DEFAULTCONF=basestation_development
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=default 
+ALLCONFS=basestation_production basestation_development sensornode_production sensornode_development 
 
 
 # build
@@ -45,13 +45,19 @@ ALLCONFS=default
 
 # clobber
 .clobber-impl: .clobber-pre .depcheck-impl
-	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=default clean
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=basestation_production clean
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=basestation_development clean
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=sensornode_production clean
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=sensornode_development clean
 
 
 
 # all
 .all-impl: .all-pre .depcheck-impl
-	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=default build
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=basestation_production build
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=basestation_development build
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=sensornode_production build
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=sensornode_development build
 
 
 

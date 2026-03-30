@@ -13,7 +13,19 @@
             </sourceRootList>
             <confList>
                 <confElem>
-                    <name>default</name>
+                    <name>basestation_production</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>basestation_development</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>sensornode_production</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>sensornode_development</name>
                     <type>2</type>
                 </confElem>
             </confList>
