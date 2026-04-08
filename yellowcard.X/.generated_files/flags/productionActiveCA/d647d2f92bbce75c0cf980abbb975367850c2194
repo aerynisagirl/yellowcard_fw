@@ -1,1 +1,0 @@
- $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -fno-common -D_BUILDTYPE_PROD=1   -DXPRJ_productionActiveCA=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  C:\Users\Aeryn\Documents\RF Project\yellowcard firmware\sensor-node_yellowcard.X\src\Main.c

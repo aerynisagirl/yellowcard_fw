@@ -1,1 +1,0 @@
- $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -fomit-frame-pointer -fno-common -D__BUILD_PRODUCTION__ -D__IS_SENSORNODE__   -DXPRJ_sensornode_production=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  C:\Users\Aeryn\Documents\RF Project\local\yellowcard fw\base-station.X\src\drv\HAL.c

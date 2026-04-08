@@ -9,6 +9,17 @@
 
 
 /********************************
+ *  Application  Configuration  *
+ ********************************/
+
+const uint8_t  configNodeID = 0x00;                //Sets the device's address
+const uint16_t configRadioBitrate = 2400;          //Sets the radio baud rate
+const uint32_t configRadioCarrier = 902500000;     //Sets the radio carrier frequency in Hz
+const uint32_t configSampleInterval = 0x00001500;  //Sets the time between measurements
+
+
+
+/********************************
  *  State Machines And Threads  *
  ********************************/
 
@@ -134,16 +145,19 @@ void sensorGetTemperature()
 void sensorReportMeasurements()
 {
 #ifdef __BUILD_DEVELOPMENT__
-    uint32_t stringLength;                    //Create a new variable to use for storing the size of constructed log strings
+//    uint32_t stringLength;                    //Create a new variable to use for storing the size of constructed log strings
 
-    stringLength = constructMeasurementLog((uint8_t *) dmaBufferTxUART, &mostRecentTemp, &mostRecentRH, &mostRecentPres);  //Construct a new measurement report log and store it in dmaBufferTxUART
-    startTxUART((uint8_t *) dmaBufferTxUART, &stringLength);                                                               //Start the transmission of the log message over UART
+//    stringLength = constructMeasurementLog((uint8_t *) dmaBufferTxUART, &mostRecentTemp, &mostRecentRH, &mostRecentPres);  //Construct a new measurement report log and store it in dmaBufferTxUART
+//    startTxUART((uint8_t *) dmaBufferTxUART, &stringLength);                                                               //Start the transmission of the log message over UART
 
-    while (DCH2CON & 0x00008000) asm volatile ("wait");  //Keep the CPU in idle mode until DMA 2 is done writing to UART 2 before down-clocking the CPU
-    while (!(U2STA & 0x00000100));                       //Wait until the transmission has completed fully before we down-clock the CPU
+//    while (DCH2CON & 0x00008000) asm volatile ("wait");  //Keep the CPU in idle mode until DMA 2 is done writing to UART 2 before down-clocking the CPU
+//    while (!(U2STA & 0x00000100));                       //Wait until the transmission has completed fully before we down-clock the CPU
 #endif
+    
 
 #ifdef __IS_BASESTATION__
+//    displayMeasurements(&mostRecentTemp, &mostRecentRH, &mostRecentPres);  //Put the new measurement data on the LCD display
+    
     LATBCLR = 0x00000400;
 
     sensorThreadState = SENSOR_SLEEP;  //Next state of the thread is SENSOR_SLEEP
@@ -323,15 +337,18 @@ void radioGetPayload()
 #endif
     }
 
-//    float decodedTemperature, decodedHumidity, decodedPressure;
-//    uint32_t stringLength = 0x00000000;
+    float decodedTemperature, decodedHumidity, decodedPressure;
+    uint32_t stringLength = 0x00000000;
 
-//    getMeasurementsFromMeasureReportPacket((packetMeasureReport_t *) rxBuffer, &decodedTemperature, &decodedHumidity, &decodedPressure);
+    getMeasurementsFromMeasureReportPacket((packetMeasureReport_t *) rxBuffer, &decodedTemperature, &decodedHumidity, &decodedPressure);
 
 #ifdef __BUILD_DEVELOPMENT__
 //    stringLength = constructMeasurementLog((uint8_t *) dmaBufferTxUART, &decodedTemperature, &decodedHumidity, &decodedPressure);
 //    stringLength = constructRssiLog((uint8_t *) dmaBufferTxUART, &mostRecentRSSI);
 //    startTxUART((uint8_t *) dmaBufferTxUART, &stringLength);                                                      //Start the transmission of the log message over UART
+#endif
+#ifdef __IS_BASESTATION__
+    displayMeasurements(&decodedTemperature, &decodedHumidity, &decodedPressure);  //Display the received measurements on the LCD
 #endif
 }
 

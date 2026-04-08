@@ -8,17 +8,6 @@
 
 
 
-/********************************
- *  Application  Configuration  *
- ********************************/
-
-const uint8_t  configNodeID = 0x00;                //Sets the device's address
-const uint16_t configRadioBitrate = 2400;          //Sets the radio baud rate
-const uint32_t configRadioCarrier = 432950000;     //Sets the radio carrier frequency in Hz
-const uint32_t configSampleInterval = 0x00001500;  //Sets the time between measurements
-
-
-
 /******************
  *  Main Program  *
  ******************/
@@ -98,7 +87,7 @@ inline void setupMCU()
     T2CON = 0x00000000;  //Enable Timer 2 using PBCLK as the source with no pre-scalar
     TMR2 = 0x00000000;   //Clear the contents of the Timer 2 count register
 
-    setupInterrupts();               //Setup the interrupt controller of the MCU and enable interrupts
+    setupInterrupts();  //Setup the interrupt controller of the MCU and enable interrupts
 }
 
 //Setup Devices Function, configures any externally connected hardware devices with the correct settings needed for the application to work
@@ -111,13 +100,15 @@ inline void setupExternals()
     setCarrierFreqSX1231H(configRadioCarrier);
     setBitRateSX1231H(configRadioBitrate);
     setFreqDeviationSX1231H(configRadioBitrate * 2);
-    setPowerLevelSX1231H(0x00000003);
+    setPowerLevelSX1231H(0x00000007);
 
     counter = 0x0000FFFF;
 
+#ifdef __IS_BASESTATION__
     //Initialize the LCD display
-    initializeSSD1803A(VIEW_BOTTOM, LINES_2, BIAS_6TH, IR1);  //Send the desired operating configuration to the LCD controller chipset
-//    setContrastSSD1803A(0x0000003F);                        //Set the LCDs contrast
+    initializeSSD1803A(VIEW_BOTTOM, LINES_4, BIAS_6TH, IR1);  //Send the desired operating configuration to the LCD controller chipset
+    //setContrastSSD1803A(0x0000003F);                        //Set the LCDs contrast
+#endif
 
     while (counter--);  //Wait a little bit before handling the barometric pressure sensor, she's a little bit sensitive
     

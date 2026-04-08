@@ -240,7 +240,7 @@ float getRssiSX1231H()
  *  Transceiver Data Exchange Functions  *
  *****************************************/
 
-//Interact With Registers Functions, reads/writes to the registers in the transceiver at the given start address using/into dataBytes 
+//Interact With Registers Functions, reads/writes to the registers in the transceiver at the given start address using/into dataBytes
 void interactWithRegistersSX1231H(uint32_t startAddress, uint8_t *dataBytes, uint32_t bufferLength, uint32_t readMode)
 {
     while (SPI1CON & 0x00000800);  //Wait until the SPI1 peripheral is in idle mode before starting the data transaction
