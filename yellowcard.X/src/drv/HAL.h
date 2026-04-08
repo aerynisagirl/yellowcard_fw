@@ -1,8 +1,8 @@
-/*******************************************************************************************
- *  Yellowcard - Example firmware for the Yellowcard RF Development Kit                    *
- * --------------------------------------------------------------------------------------- *
- *  HAL.h - Provides a layer of abstraction between device drivers and theMCU peripherals  *
- *******************************************************************************************/
+/********************************************************************************************
+ *  Yellowcard - Example firmware for the Yellowcard RF Development Kit                     *
+ * ---------------------------------------------------------------------------------------- *
+ *  HAL.h - Provides a layer of abstraction between device drivers and the MCU peripherals  *
+ ********************************************************************************************/
 
 #ifndef __HAL_H__
 #define	__HAL_H__

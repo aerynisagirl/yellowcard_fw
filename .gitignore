@@ -1,3 +1,11 @@
-/yellowcard.X/queuelogs/
-/yellowcard.X/nbproject/private/
-/yellowcard.X/debug/
+/yellowcard.X/*
+!/yellowcard.X/src/*
+!/yellowcard.X/Makefile
+!/yellowcard.X/nbproject/project.xml
+!/yellowcard.X/nbproject/configurations.xml
+!/yellowcard.X/nbproject/Makefile-impl.mk
+!/yellowcard.X/nbproject/Makefile-variables.mk
+!/yellowcard.X/nbproject/Makefile-basestation_development.mk
+!/yellowcard.X/nbproject/Makefile-basestation_production.mk
+!/yellowcard.X/nbproject/Makefile-sensornode_development.mk
+!/yellowcard.X/nbproject/Makefile-sensornode_production.mk

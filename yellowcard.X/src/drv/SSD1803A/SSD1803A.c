@@ -44,8 +44,6 @@ uint32_t statusRegister_SSD1803A = 0x00000000;  //Driver Status Register, used t
 //Initialize Function, configures the chipset for the desired operating mode for the application
 uint32_t initializeSSD1803A(SSD1803A_orientation_t orientation, SSD1803A_lineCount_t lines, SSD1803A_vBias_t lcdBias, SSD1803A_regulatorGain_t lcdGain)
 {
-
-#if 1
     uint32_t counter = 0x00000008;               //Create a temporary variable to use for iterating through each byte of the sequence
     uint8_t calculatedCommands[0x00000005];      //Declare a 4 byte long array for generating the commands to apply the runtime configuration settings
     const uint8_t* bytePointer = SSD1803A_Init;  //Declare a pointer with the address of the first item in the SSD1803A_Init array
@@ -79,7 +77,7 @@ uint32_t initializeSSD1803A(SSD1803A_orientation_t orientation, SSD1803A_lineCou
         bytePointer++;                                              //Increment the address of bytePointer by 1
     }
 
-    counter = 0x00000003 + (lines & 0x00000001);  //Set the counter to 4 or 5 depending if Bit-0 of the lines argument is set
+    counter = 0x00000003 + (lines & 0x00000001);  //Set the counter to 3 or 4 depending if Bit-0 of the lines argument is set
     bytePointer = SSD1803A_Init + 0x00000008;     //Copy the address of the 11th index in the SSD1803A_Init array into bytePointer
 
     //Send each command in the array to the LCD controller
@@ -90,66 +88,7 @@ uint32_t initializeSSD1803A(SSD1803A_orientation_t orientation, SSD1803A_lineCou
     }
 
     statusRegister_SSD1803A &= 0xFFFFFFFFE;  //Update the driver status register to match
-
-#else
-
-    uint8_t buffer = 0x0000003B;
-
-    //RE = ?, RE = ?
-    if (!sendCommandSSD1803A(0x38)) return 0x00000000;    //Try putting the controller into the regular register selection
-    if (!sendCommandSSD1803A(buffer)) return 0x00000000;  //Select the special instruction and extended registers on the LCD controller
-    statusRegister_SSD1803A = buffer & 0x00000007;        //Update the driver status register to match
-
-    //RE = 1, IS = 1
-    if (!sendCommandSSD1803A(0x80)) return 0x00000000;         //Set Scroll Quantity, reset the scroll offset back to 0
-    if (!sendCommandSSD1803A(0x10)) return 0x00000000;         //Scroll/Shift Enable, disable the scroll function for all 4 lines
-    if (!sendCommandSSD1803A(orientation)) return 0x00000000;  //Entry mode set, configure the chipset for the desired viewing orientation
-
-    if (!sendCommandSSD1803A(0x38)) return 0x00000000;  //Select the regular register set on the LCD controller
-    statusRegister_SSD1803A &= 0xFFFFFFFC;              //Update the driver status register to match
-
-    //RE = 0, IS = 0
-    if (!sendCommandSSD1803A(0x01)) return 0x00000000;       //Clear the display
-    if (!sendCommandSSD1803A(0x06)) return 0x00000000;       //Entry mode set, cursor moves to the right with shifting disabled
-    if (!sendCommandSSD1803A(DISPLAY_ON_NO_CURSOR)) return 0x00000000;  //Display On/Off Control, put the display into the desired operating mode
-
-    if (!sendCommandSSD1803A(0x39)) return 0x00000000;             //Select the special instruction registers on the LCD controller
-    statusRegister_SSD1803A |= 0x00000001;                         //Update the driver register to match
-
-    //RE = 0, IS = 1
-    buffer = 0x00000013;                                              //Pre-calculate the bits for the next command
-    if (lcdBias & 0x00000001) buffer |= 0x00000008;                   //Set the 4th bit if BS0 is set in the provided LCD bias setting
-    if (!sendCommandSSD1803A(buffer)) return 0x00000000;              //Internal OSC Frequency, sets the clock frequency for the chipset and also provides the LSB of the bias setting
-
-    if (lcdBias & 0x00000001) statusRegister_SSD1803A |= 0x00000010;  //Update the driver status register to match
-    if (!sendCommandSSD1803A(0x56)) return 0x00000000;                //Power Control and Contrast, enable the internal voltage booster and set the contrast setting
-    if (!sendCommandSSD1803A(lcdGain)) return 0x00000000;             //Follower Control, set the gain of the bias voltage follower and enable it
-    if (!sendCommandSSD1803A(0x70)) return 0x00000000;                //Contrast Set, put the contrast back to the default setting
-
-    if (!sendCommandSSD1803A(0x3A)) return 0x00000000;                              //Select the extended instruction registers on the LCD controller
-    statusRegister_SSD1803A = (statusRegister_SSD1803A & 0xFFFFFFFE) | 0x00000002;  //Update the driver status register to match
-
-    //RE = 1, IS = 0
-
-    buffer = (lines & 0x0000001C) | (lcdBias & 0x00000002);       //Pre-calculate the bits for the next command
-    if (!sendCommandSSD1803A(buffer)) return 0x00000000;          //Double Height/Bias instruction, sets the double height mode
-    buffer = (buffer & 0x0000000F) << 0x00000006;                 //Shift the contents of the buffer variable over to the left by 7 bits, clearing the most significant bit
-    if (!sendCommandSSD1803A(0x09)) return 0x00000000;            //Extended function set, use 5-bit wide characters and disable B/W inversion of the cursor
-    buffer = (DISPLAY_ON_NO_CURSOR & 0x00000004) ? 0x00000002 : 0x00000003;  //Pre-calculate the bits for the next command
-    if (!sendCommandSSD1803A(buffer)) return 0x00000000;          //Power down mode, put the controller into low-power mode if required
-
-    if (!sendCommandSSD1803A(0x38)) return 0x00000000;  //Select the regular registers on the LCD controller
-    statusRegister_SSD1803A &= 0xFFFFFFFD;              //Update the driver status register to match
-    if (lines & 0x00000001)
-    {
-        if (!sendCommandSSD1803A(0x3C)) return 0x00000000;  //Try to set the DH bit on the controller with the function set instruction
-        statusRegister_SSD1803A |= 0x00000004;              //Update the driver status register to match
-    }
-
-#endif
-
-
-    return 0xFFFFFFFF;  //Return with all bits set to indicate the initialization procedure succeeded
+    return 0xFFFFFFFF;                       //Return with all bits set to indicate the initialization procedure succeeded
 }
 
 

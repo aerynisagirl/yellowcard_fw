@@ -67,20 +67,12 @@
 #endif
 
 
-
-//Application Configuration flash memory allocation
-extern const uint8_t __attribute__ ((space(prog), section(".app_config"))) configNodeID;
-extern const uint32_t __attribute__ ((space(prog), section(".app_config"))) configSampleInterval;
-extern const uint32_t __attribute__ ((space(prog), section(".app_config"))) configRadioCarrier;
-extern const uint16_t __attribute__ ((space(prog), section(".app_config"))) configRadioBitrate;
-
-
 //Define any variables that are external to this file
 
 
 //Program Run-time Functions
 extern inline void setupMCU();        //Setup MCU Function, sets the appropriate control registers on the MCU needed to make things work for the application
-extern inline void setupExternals();
+extern inline void setupExternals();  //Setup Externals Function, configures any externally connected hardware devices with the correct settings needed for the application to work
 extern void main();                   //Main Function, main entry point of the program of the MCU after reset and initialization
 
 

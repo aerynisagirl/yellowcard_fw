@@ -3,7 +3,7 @@ build/basestation_development/debug/src/Main.o: src/Main.c src/Main.h \
  src/drv/SHT4x/../HAL.h src/drv/SSD1803A/SSD1803A.h \
  src/drv/SSD1803A/../HAL.h src/drv/SX1231H/SX1231H.h \
  src/drv/SX1231H/SX1231HRegisters.h src/Interrupts.h src/Application.h \
- src/PacketStructures.h src/Logging.h
+ src/Display.h src/StringUtils.h src/PacketStructures.h
 
 src/Main.h:
 
@@ -27,6 +27,8 @@ src/Interrupts.h:
 
 src/Application.h:
 
-src/PacketStructures.h:
+src/Display.h:
 
-src/Logging.h:
+src/StringUtils.h:
+
+src/PacketStructures.h:

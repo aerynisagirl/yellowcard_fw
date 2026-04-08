@@ -1,12 +1,3 @@
-TODO:
-- SIN number change
-- Cancel dads internet
-- OSAP application
-- find housing
-- 
-
-
-
 Variable
 -------------    
 dataBuffer[0]     0x0E        0x10    c0

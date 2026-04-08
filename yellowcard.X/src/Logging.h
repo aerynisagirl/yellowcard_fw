@@ -11,14 +11,15 @@
 #include <xc.h>           //Include the main header file for the XC32 compiler, provides register definitions
 #include <sys/attribs.h>  //Include the attribs file, contains compiler level memory organization macros
 #include <string.h>       //Include the default string library which has some handy memory and string manipulation functions
+#include "StringUtils.h"  //Include the string utils header file, has some functions to convert different data types into strings
 
 
-//Logging strings
+//Logging string flash memory allocation
 extern const uint8_t __attribute__ ((space(prog), section(".logging_constants"))) logConstants_measurementReport[];
 extern const uint8_t __attribute__ ((space(prog), section(".logging_constants"))) logConstants_packet[];
 extern const uint8_t __attribute__ ((space(prog), section(".logging_constants"))) logConstants_rssi[];
 
-//Packet Type strings
+//Packet type string flash memory allocation
 extern const uint8_t __attribute__ ((space(prog), section(".logging_constants"))) logConstants_packetType_acknowledge[];
 extern const uint8_t __attribute__ ((space(prog), section(".logging_constants"))) logConstants_packetType_event[];
 extern const uint8_t __attribute__ ((space(prog), section(".logging_constants"))) logConstants_packetType_measureReport[];
@@ -35,9 +36,6 @@ extern uint32_t constructPacketLog(uint8_t *stringBuffer,          //Construct P
                                    const uint8_t *packetBytes);
 extern uint32_t constructRssiLog(uint8_t *stringBuffer,            //Construct RSSI Log Function, constructs a new string to log the RSSI value of the last packet received
                                  const float *rssi);
-
-extern void uintToDecString(uint32_t numberToConvert, uint8_t *stringBuffer);  //Unsigned Integer To Decimal String, converts the provided unsigned integer into it's decimal string representation
-extern void byteToHexString(uint8_t byteToConvert, uint8_t *stringBuffer);     //Byte To Hexadecimal String, converts the provided byte into it's hexadecimal string representation
 
 
 #endif

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <project>                                  
-  <executable name="dist/basestation_production/production/base-station.X.production.elf">                 
+  <executable name="dist/basestation_production/production/yellowcard.X.production.elf">                 
     <memory name="program">                 
       <units>bytes</units>                 
       <length>33936</length>                 
-      <used>13972</used>                     
-      <free>19964</free>                     
+      <used>20240</used>                     
+      <free>13696</free>                     
     </memory>                              
     <memory name="data">              
       <units>bytes</units>                 
       <length>8192</length>                 
-      <used>116</used>                     
-      <free>8076</free>                     
+      <used>312</used>                     
+      <free>7880</free>                     
     </memory>                              
   </executable>                            
 </project>                                 

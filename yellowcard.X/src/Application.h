@@ -13,12 +13,12 @@
 #include "drv/SHT4x/SHT4x.h"        //Include the driver for the SHT4x temperature and humidity sensor
 #include "drv/SX1231H/SX1231H.h"    //Include the driver for the SX1231H sub-1GHz radio IC
 #include "drv/SSD1803A/SSD1803A.h"  //Include the driver for the SSD1803A LCD controller chipset
-
+#include "Display.h"                //Include the display header file for displaying the screens onto the LCD
 #include "PacketStructures.h"       //Include the packet structures header file to use for handling packet creation
 
 //Include any libraries used specifically for development builds
 #ifdef __BUILD_DEVELOPMENT__
-#include "Logging.h"                //Include the logging header file that contains all things logging related
+//#include "Logging.h"                //Include the logging header file that contains all things logging related
 #endif
 
 
@@ -33,6 +33,13 @@ typedef enum
     RADIO_SLEEP, RADIO_SLEEP_TX, RADIO_SLEEP_RX, RADIO_IDLE, RADIO_PROCESS_INTERRUPT, RADIO_START_TX, RADIO_START_RX,
     RADIO_TX_DONE, RADIO_RX_DONE, RADIO_RECEIVE_PACKET, RADIO_RX_TIMEOUT
 } radioState_t;
+
+
+//Application Configuration flash memory allocation
+extern const uint8_t __attribute__ ((space(prog), section(".app_config"))) configNodeID;
+extern const uint32_t __attribute__ ((space(prog), section(".app_config"))) configSampleInterval;
+extern const uint32_t __attribute__ ((space(prog), section(".app_config"))) configRadioCarrier;
+extern const uint16_t __attribute__ ((space(prog), section(".app_config"))) configRadioBitrate;
 
 
 //Define any variables that are external to this file

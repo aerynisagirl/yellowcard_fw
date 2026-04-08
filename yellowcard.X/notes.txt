@@ -4,6 +4,17 @@ printStringSSD1803A()       180 bytes
 
 
 
+LCD
+------------------
+|                |
+|    -20.00 C    |
+|100% RH 100.0kPA             
+
+
+
+
+
+
 txAttempts = 3
 
     START_TX
