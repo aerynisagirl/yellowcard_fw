@@ -1,5 +1,7 @@
 /yellowcard.X/*
 !/yellowcard.X/src/*
+!/yellowcard.X/src/drv/*
+!/yellowcard.X/src/app/*
 !/yellowcard.X/Makefile
 !/yellowcard.X/nbproject/project.xml
 !/yellowcard.X/nbproject/configurations.xml
