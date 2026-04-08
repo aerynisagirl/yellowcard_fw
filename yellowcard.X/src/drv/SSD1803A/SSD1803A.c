@@ -92,6 +92,7 @@ uint32_t initializeSSD1803A(SSD1803A_orientation_t orientation, SSD1803A_lineCou
 }
 
 
+
 /***************************
  *  Interaction Functions  *
  ***************************/
@@ -99,28 +100,39 @@ uint32_t initializeSSD1803A(SSD1803A_orientation_t orientation, SSD1803A_lineCou
 //Clear Display Function, clears the contents of the display and returns the cursor to home
 uint32_t clearDisplaySSD1803A()
 {
-    return sendCommandSSD1803A(0x01);  //Send the appropriate byte required to clear the contents of the display
+    const uint8_t clearCommand = 0x01;  //Create a constant in flash for the clear display byte to live in
+
+    return sendBytesToSSD1803A(0x000000C0, &clearCommand, 0x00000001);  //Send the Clear Display command to the chipset returning true on success
 }
 
 //Return Home Function, returns the cursor to home position on the display
 uint32_t returnHomeSSD1803A()
 {
     if (!functionSetSSD1803A((SSD1803A_registers_t) statusRegister_SSD1803A & 0x00000001)) return 0x00000000;  //Try selecting the regular register set on LCD controller
-    return sendCommandSSD1803A(0x02);                                                                          //Send the byte needed to return the cursor to the home position
+
+    const uint8_t homeCommand = 0x02;  //Create a constant in flash for the home byte to live in
+    
+    return sendBytesToSSD1803A(0x000000C0, &homeCommand, 0x0000001);  //Send the Return Home command to the chipset returning true on success
 }
 
 //Put Cursor Function, changes the DDRAM address that the cursor is placed at on the LCD display
 uint32_t putCursorSSD1803A(uint32_t newCursorPosition)
 {
     if (!functionSetSSD1803A((SSD1803A_registers_t) statusRegister_SSD1803A & 0x00000001)) return 0x00000000;  //Try selecting the regular register set on the LCD controller
-    return sendCommandSSD1803A((newCursorPosition & 0x0000007F) | 0x00000080);                                 //Change the DDRAM address on the controller to the requested address
+
+    newCursorPosition = (newCursorPosition & 0x0000007F) | 0x00000080;  //Format the requested cursor position into the proper command format for the LCD controller
+
+    return sendBytesToSSD1803A(0x000000C0, (uint8_t *) &newCursorPosition, 0x00000001);  //Send the Set DDRAM Address command to the chipset returning true on success
 }
 
 //Set Scroll Offset Function, sets the amount of pixels/characters to shift the display contents over by
 uint32_t setScrollOffsetSSD1803A(uint8_t newScrollAmount)
 {
     if (!functionSetSSD1803A(RE_1_IS_0)) return 0x00000000;  //Try selecting the extended register set on the LCD controller
-    return sendCommandSSD1803A((newScrollAmount & 0x3F));    //Update the controller with the requested scroll amount
+
+    newScrollAmount = (newScrollAmount & 0x0000003F) | 0x00000080;  //Format the requested scroll amount into the proper command format for the LCD controller
+
+    return sendBytesToSSD1803A(0x000000C0, &newScrollAmount, 0x00000001);  //Send the command to the chipset returning true on success
 }
 
 //Set Line Count Function, configures how the LCD controller is to arrange the lines on the display
@@ -128,8 +140,8 @@ uint32_t setLineCountSSD1803A(SSD1803A_lineCount_t lines)
 {
     if (!functionSetSSD1803A(RE_1_IS_0)) return 0x00000000;  //Try putting the LCD controller into the extended register mode
 
-    uint32_t commandByte = ((statusRegister_SSD1803A & 0x000000C0) >> 0x00000006) | (lines & 0x0000001C);           //Calculate the correct bits to send for the Double Height command
-    if (!sendCommandSSD1803A(commandByte)) return 0x00000000;                                                       //Try to sending the command, exiting if it fails
+    uint8_t commandByte = ((statusRegister_SSD1803A & 0x000000C0) >> 0x00000006) | (lines & 0x0000001C);            //Calculate the correct bits to send for the Double Height command
+    if (!sendBytesToSSD1803A(0x000000C0, &commandByte, 0x00000001)) return 0x00000000;                              //Try to sending the command, exiting if it fails
     statusRegister_SSD1803A = (statusRegister_SSD1803A & 0xFFFFFCFB) | ((commandByte & 0x0000000C) << 0x00000006);  //Update the driver status register to match
 
     commandByte = statusRegister_SSD1803A & 0x00000004;             //Get the current state of the DH bit before modifying it in the status register
@@ -137,29 +149,46 @@ uint32_t setLineCountSSD1803A(SSD1803A_lineCount_t lines)
     if (functionSetSSD1803A(RE_0_IS_1)) return 0xFFFFFFFF;          //Update the LCD controller with the new value of the DH bit
 
     statusRegister_SSD1803A = statusRegister_SSD1803A & 0xFFFFFFFB | commandByte;  //Write the value of the old DH bit to the status register being that the attempt to change it failed
-    return 0;                                                                      //Return a value of 0 indicating that the operation failed
+    return 0x00000000;                                                             //Return a value of 0 indicating that the operation failed
 }
 
 //Set Contrast Function, sets the contrast of the LCD display to the desired value
 uint32_t setContrastSSD1803A(uint8_t newContrast)
 {
-    if (!functionSetSSD1803A(RE_0_IS_1)) return 0x00000000;                                 //Try selecting the special instruction registers on the LCD controller
-    if (!sendCommandSSD1803A((newContrast & 0x0000000F) | 0x00000070)) return 0x00000000;   //Send the LSB of the requested contrast setting to the controller
-    if (!sendCommandSSD1803A((newContrast >> 0x00000004) | 0x00000054)) return 0x00000000;  //Send the MSB of the requested contrast setting to the controller
+    if (!functionSetSSD1803A(RE_0_IS_1)) return 0x00000000;  //Try selecting the special instruction registers on the LCD controller
+
+    uint8_t contrastCommands[0x00000002];                                     //Create a 2 byte array for holding the contrast commands to be send to the controller
+    contrastCommands[0x00000000] = (newContrast & 0x0000000F) | 0x00000070;   //Generate a Power Control command containing the LSB of the requested contrast settings
+    contrastCommands[0x00000001] = (newContrast >> 0x00000004) | 0x00000054;  //Generate a Contrast Set command containing the MSB of the requested contrast value
+
+    return sendBytesToSSD1803A(0x000000C0, contrastCommands, 0x00000002);  //Attempt to send the commands to the chipset returning true on success
+//    if (!sendCommandSSD1803A((newContrast & 0x0000000F) | 0x00000070)) return 0x00000000;   //Send the LSB of the requested contrast setting to the controller
+//    if (!sendCommandSSD1803A((newContrast >> 0x00000004) | 0x00000054)) return 0x00000000;  //Send the MSB of the requested contrast setting to the controller
 }
 
 //Set Display Mode Function, sets the desired operating mode of the LCD display
 uint32_t setDisplayModeSSD1803A(SSD1803A_displayMode_t newMode)
 {
-    if (!functionSetSSD1803A(RE_0_IS_0)) return 0x00000000;                                          //Try selecting the regular register set on LCD controller
-    if (!sendCommandSSD1803A(newMode)) return 0x00000000;                                            //Attempt to put the controller into the requested display mode
-    return sendCommandSSD1803A((newMode & 0x00000004) ? 0x00000002 : 0x00000003);  //Place the controller chipset into low-power mode when the desired mode is DISPLAY_OFF
+    if (!functionSetSSD1803A(RE_0_IS_0)) return 0x00000000;  //Try selecting the regular register set on LCD controller
+
+    uint8_t displayModeCommands[0x00000002];    //Create a 2 byte array for holding the display mode commands to be sent to the controller
+    displayModeCommands[0x00000000] = newMode;  //Generate a Display On/Off command with the requested mode settings
+
+    //Determine whether or not to put the controller in low power mode
+    if (newMode & 0x00000004)
+    {
+        displayModeCommands[0x00000001] = 0x02;  //Generate a Power Down Mode command with low-power mode disabled when the display is requested to be on
+    }
+    else
+    {
+        displayModeCommands[0x00000001] = 0x03;  //Generate a Power Down Mode command with low-power mode enabled when the display is requested to be off
+    }
+
+    return sendBytesToSSD1803A(0x000000C0, displayModeCommands, 0x00000002);  //Attempt to send the commands to the chipset, returning true on success
+//    return sendCommandSSD1803A((newMode & 0x00000004) ? 0x00000002 : 0x00000003);  //Place the controller chipset into low-power mode when the desired mode is DISPLAY_OFF
 //    if (!sendCommandSSD1803A((newMode & 0x00000004 ^ 0x0000000C) >> 0x00000002)) return 0x00000000;  //Change the power-down bit of the controller to match the newly requested mode
 //    return sendCommandSSD1803A(newMode);                                                             //Attempt to put the controller into the newly requested mode
 }
-
-
-
 
 
 
@@ -185,20 +214,21 @@ uint32_t functionSetSSD1803A(SSD1803A_registers_t registerSelect)
         // if ((statusRegister_SSD1803A & 0x00000002) == 0x00000002 && (statusRegister_SSD1803A & 0x00000001 ^ specialRegisters) == 0x00000000)
         if (((statusRegister_SSD1803A & 0x00000003) ^ (registerSelect & 0x00000001)) ^ 0x00000002)
         {
-            if (!sendCommandSSD1803A(commandByte)) return 0x00000000;  //Try to take the LCD controller out of the extended registers
-            statusRegister_SSD1803A &= 0xFFFFFFFD;                     //Clear the RE bit in the driver status register to match
+            if (!sendBytesToSSD1803A(0x000000C0, &commandByte, 0x00000001)) return 0x00000000;  //Try to take the LCD controller out of the extended registers
+            statusRegister_SSD1803A &= 0xFFFFFFFD;                                              //Clear the RE bit in the driver status register to match
         }
 
         //Determine how to handle this based on the requested changes based on the current state of the LCD controller
         if (statusRegister_SSD1803A & 0x00000002)
         {
-            if (!sendCommandSSD1803A((registerSelect & 0x00000002) | commandByte)) return 0x00000000;          //Attempt to select the desired registers on the LCD controller chipset
+            commandByte = (registerSelect & 0x00000002) | commandByte;                                         //Form the correct command byte to send to the LCD controller
+            if (!sendBytesToSSD1803A(0x000000C0, &commandByte, 0x00000001)) return 0x00000000;                 //Attempt to select the desired registers on the LCD controller chipset
             statusRegister_SSD1803A = (statusRegister_SSD1803A & 0xFFFFFFFD) | (registerSelect & 0x00000002);  //Update the RE bit of the drivers status register to match the new value
         }
         else
         {
             commandByte = (statusRegister_SSD1803A & 0x00000004) | registerSelect | 0x00000038;  //Form the correct command byte to send to the LCD controller
-            if (!sendCommandSSD1803A(commandByte)) return 0x00000000;                            //Try sending the command to the LCD controller
+            if (!sendBytesToSSD1803A(0x000000C0, &commandByte, 0x00000001)) return 0x00000000;   //Try sending the command to the LCD controller
             statusRegister_SSD1803A = statusRegister_SSD1803A & 0xFFFFFFFC | registerSelect;     //Update the RE and IS bits of the drivers status register to match the new values
         }
     }
@@ -223,7 +253,7 @@ uint32_t sendCommandSSD1803A(uint8_t command)
 uint32_t printStringSSD1803A(uint8_t *string, uint32_t length)
 {
     uint8_t outputBytes[0x00000002];           //Create a 2 byte long array to use for creating the sequence of bytes to send to the LCD controller
-    uint8_t *byte = outputBytes + 0x00000001;  //Declare a pointer to the second byte in the ouptutBytes array
+    uint8_t *byte = outputBytes + 0x00000001;  //Declare a pointer to the second byte in the outputBytes array
     *outputBytes = 0xC0;                       //Set the first byte of the sequence to 0, this indicates the next byte will be an instruction
 
     //Write each character from the provided string into the DDRAM on the LCD controller
@@ -233,6 +263,34 @@ uint32_t printStringSSD1803A(uint8_t *string, uint32_t length)
         string++;         //Increment the address of the string pointer by 1
 
         if (!writeToI2C(SSD1803A_I2C_ADDR, outputBytes, 0x00000002)) return 0x00000000;  //Send the character to the controller
+    }
+
+    return 0xFFFFFFFF;  //Return a value of true to indicate the operation completed successfully
+}
+
+//Send Bytes To Function, sends the contents of dataBytes to the LCD controller as either commands or raw data as specified
+uint32_t sendBytesToSSD1803A(uint32_t isCommand, const uint8_t* dataBytes, uint32_t bufferLength)
+{
+    uint8_t outputBytes[0x00000002];           //Create a 2 byte long array to use for creating the sequence of bytes to send to the LCD controller
+    uint8_t *byte = outputBytes + 0x00000001;  //Declare a pointer to the second byte in the outputBytes array
+
+    //Load the first byte with the appropriate value depending on if the data being sent is commands
+    if (isCommand)
+    {
+        *outputBytes = 0xC0;  //Set the first byte of the output array to 0xC0, indicates that the byte immediately following shall be interpreted as a command
+    }
+    else
+    {
+        *outputBytes = 0x00;  //Set the first byte of the output array to 0, indicating that the byte immediately following shall be interpreted as normal data
+    }
+
+    //Write each index of dataBytes to the LCD controller
+    while (bufferLength--)
+    {
+        *byte = *dataBytes;  //Copy the contents of the next element in dataBytes into the location provided by the byte pointer
+        dataBytes++;         //Increment the address of the dataBytes pointer by 1 element
+
+        if (!writeToI2C(SSD1803A_I2C_ADDR, outputBytes, 0x00000002)) return 0x00000000;  //Send the next byte to the controller chipset
     }
 
     return 0xFFFFFFFF;  //Return a value of true to indicate the operation completed successfully

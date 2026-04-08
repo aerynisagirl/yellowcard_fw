@@ -99,6 +99,9 @@ extern uint32_t setLineCountSSD1803A(SSD1803A_lineCount_t lines);        //Set L
 extern uint32_t functionSetSSD1803A(SSD1803A_registers_t registerSelect);  //Function Set Function, selects what function registers the LCD controller is to respond to
 extern uint32_t sendCommandSSD1803A(uint8_t command);                      //Send Command Function, sends the desired command byte to the LCD controller through the I2C interface
 extern uint32_t printStringSSD1803A(uint8_t *string, uint32_t length);     //Print String Function, prints the provided string to the LCD display
+extern uint32_t sendBytesToSSD1803A(uint32_t isCommand,                    //Send Bytes To Function, sends the contents of dataBytes to the LCD controller as either commands or raw data as specified
+                                    const uint8_t *dataBytes,
+                                    uint32_t bufferLength);
 
 
 #endif

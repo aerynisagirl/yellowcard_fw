@@ -4,6 +4,10 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <logicalFolder name="f2" displayName="Application" projectFiles="true">
+        <itemPath>src/app/Application.h</itemPath>
+        <itemPath>src/app/PacketStructures.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="f1" displayName="Drivers" projectFiles="true">
         <itemPath>src/drv/SX1231H/SX1231H.h</itemPath>
         <itemPath>src/drv/SHT4x/SHT4x.h</itemPath>
@@ -14,9 +18,7 @@
       <itemPath>src/Main.h</itemPath>
       <itemPath>src/drv/HAL.h</itemPath>
       <itemPath>src/Interrupts.h</itemPath>
-      <itemPath>src/PacketStructures.h</itemPath>
       <itemPath>src/Logging.h</itemPath>
-      <itemPath>src/Application.h</itemPath>
       <itemPath>src/Display.h</itemPath>
       <itemPath>src/StringUtils.h</itemPath>
     </logicalFolder>
@@ -27,6 +29,10 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="f2" displayName="Application" projectFiles="true">
+        <itemPath>src/app/Application.c</itemPath>
+        <itemPath>src/app/PacketStructures.c</itemPath>
+      </logicalFolder>
       <logicalFolder name="f1" displayName="Drivers" projectFiles="true">
         <itemPath>src/drv/DPS368/DPS368.c</itemPath>
         <itemPath>src/drv/SHT4x/SHT4x.c</itemPath>
@@ -36,9 +42,7 @@
       <itemPath>src/Main.c</itemPath>
       <itemPath>src/drv/HAL.c</itemPath>
       <itemPath>src/Interrupts.c</itemPath>
-      <itemPath>src/PacketStructures.c</itemPath>
       <itemPath>src/Logging.c</itemPath>
-      <itemPath>src/Application.c</itemPath>
       <itemPath>src/Display.c</itemPath>
       <itemPath>src/StringUtils.c</itemPath>
     </logicalFolder>
@@ -88,7 +92,7 @@
         <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
         <makeUseCleanTarget>false</makeUseCleanTarget>
         <makeCustomizationPreStep></makeCustomizationPreStep>
-        <makeCustomizationPostStepEnabled>false</makeCustomizationPostStepEnabled>
+        <makeCustomizationPostStepEnabled>true</makeCustomizationPostStepEnabled>
         <makeCustomizationPostStep>${MP_CC_DIR}\xc32-objdump -S ${ImageDir}\${PROJECTNAME}.${IMAGE_TYPE}.elf > build\${ConfName}\${IMAGE_TYPE}\${ProjectName}.lst</makeCustomizationPostStep>
         <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
@@ -423,7 +427,7 @@
         <targetDevice>PIC32MX120F032B</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>PK5Tool</platformTool>
+        <platformTool>noID</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>4.35</languageToolchainVersion>
         <platform>3</platform>
@@ -452,7 +456,7 @@
         <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
         <makeUseCleanTarget>false</makeUseCleanTarget>
         <makeCustomizationPreStep></makeCustomizationPreStep>
-        <makeCustomizationPostStepEnabled>false</makeCustomizationPostStepEnabled>
+        <makeCustomizationPostStepEnabled>true</makeCustomizationPostStepEnabled>
         <makeCustomizationPostStep>${MP_CC_DIR}\xc32-objdump -S ${ImageDir}\${PROJECTNAME}.${IMAGE_TYPE}.elf > build\${ConfName}\${IMAGE_TYPE}\${ProjectName}.lst</makeCustomizationPostStep>
         <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
@@ -660,8 +664,6 @@
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="1d000000-1d007fff"/>
         <property key="poweroptions.powerenable" value="true"/>
-        <property key="programmerToGoFilePath"
-                  value="C:/Users/Aeryn/Documents/RF Project/git_repos/yellowcard_fw/yellowcard.X/debug/basestation_development/yellowcard_ptg"/>
         <property key="programmerToGoImageName" value="yellowcard_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
@@ -819,7 +821,7 @@
         <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
         <makeUseCleanTarget>false</makeUseCleanTarget>
         <makeCustomizationPreStep></makeCustomizationPreStep>
-        <makeCustomizationPostStepEnabled>false</makeCustomizationPostStepEnabled>
+        <makeCustomizationPostStepEnabled>true</makeCustomizationPostStepEnabled>
         <makeCustomizationPostStep>${MP_CC_DIR}\xc32-objdump -S ${ImageDir}\${PROJECTNAME}.${IMAGE_TYPE}.elf > build\${ConfName}\${IMAGE_TYPE}\${ProjectName}.lst</makeCustomizationPostStep>
         <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
@@ -1185,7 +1187,7 @@
         <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
         <makeUseCleanTarget>false</makeUseCleanTarget>
         <makeCustomizationPreStep></makeCustomizationPreStep>
-        <makeCustomizationPostStepEnabled>false</makeCustomizationPostStepEnabled>
+        <makeCustomizationPostStepEnabled>true</makeCustomizationPostStepEnabled>
         <makeCustomizationPostStep>${MP_CC_DIR}\xc32-objdump -S ${ImageDir}\${PROJECTNAME}.${IMAGE_TYPE}.elf > build\${ConfName}\${IMAGE_TYPE}\${ProjectName}.lst</makeCustomizationPostStep>
         <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>

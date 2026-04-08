@@ -58,7 +58,7 @@
 #include "drv/SSD1803A/SSD1803A.h"  //Include the driver for the SSD1803A LCD display controller IC
 #include "drv/SX1231H/SX1231H.h"    //Include the driver for the SX1231H sub-1GHz radio IC
 #include "Interrupts.h"             //Include the Interrupts header file, contains all interrupt related functions of the application
-#include "Application.h"            //Inlcude the Application header file, contains the application program and all associated threads/state machines
+//#include "Application.h"            //Inlcude the Application header file, contains the application program and all associated threads/state machines
 //#include "PacketStructures.h"       //Include the packet structures header file to use for handling packet creation
 
 //Include any libraries used specifically for development builds

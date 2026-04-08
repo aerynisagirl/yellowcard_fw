@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=src/drv/DPS368/DPS368.c src/drv/SHT4x/SHT4x.c src/drv/SX1231H/SX1231H.c src/drv/SSD1803A/SSD1803A.c src/Main.c src/drv/HAL.c src/Interrupts.c src/PacketStructures.c src/Logging.c src/Application.c src/Display.c src/StringUtils.c
+SOURCEFILES_QUOTED_IF_SPACED=src/drv/DPS368/DPS368.c src/drv/SHT4x/SHT4x.c src/drv/SX1231H/SX1231H.c src/drv/SSD1803A/SSD1803A.c src/Main.c src/drv/HAL.c src/Interrupts.c src/Logging.c src/Display.c src/StringUtils.c src/app/Application.c src/app/PacketStructures.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/src/drv/DPS368/DPS368.o ${OBJECTDIR}/src/drv/SHT4x/SHT4x.o ${OBJECTDIR}/src/drv/SX1231H/SX1231H.o ${OBJECTDIR}/src/drv/SSD1803A/SSD1803A.o ${OBJECTDIR}/src/Main.o ${OBJECTDIR}/src/drv/HAL.o ${OBJECTDIR}/src/Interrupts.o ${OBJECTDIR}/src/PacketStructures.o ${OBJECTDIR}/src/Logging.o ${OBJECTDIR}/src/Application.o ${OBJECTDIR}/src/Display.o ${OBJECTDIR}/src/StringUtils.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/src/drv/DPS368/DPS368.o.d ${OBJECTDIR}/src/drv/SHT4x/SHT4x.o.d ${OBJECTDIR}/src/drv/SX1231H/SX1231H.o.d ${OBJECTDIR}/src/drv/SSD1803A/SSD1803A.o.d ${OBJECTDIR}/src/Main.o.d ${OBJECTDIR}/src/drv/HAL.o.d ${OBJECTDIR}/src/Interrupts.o.d ${OBJECTDIR}/src/PacketStructures.o.d ${OBJECTDIR}/src/Logging.o.d ${OBJECTDIR}/src/Application.o.d ${OBJECTDIR}/src/Display.o.d ${OBJECTDIR}/src/StringUtils.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/src/drv/DPS368/DPS368.o ${OBJECTDIR}/src/drv/SHT4x/SHT4x.o ${OBJECTDIR}/src/drv/SX1231H/SX1231H.o ${OBJECTDIR}/src/drv/SSD1803A/SSD1803A.o ${OBJECTDIR}/src/Main.o ${OBJECTDIR}/src/drv/HAL.o ${OBJECTDIR}/src/Interrupts.o ${OBJECTDIR}/src/Logging.o ${OBJECTDIR}/src/Display.o ${OBJECTDIR}/src/StringUtils.o ${OBJECTDIR}/src/app/Application.o ${OBJECTDIR}/src/app/PacketStructures.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/src/drv/DPS368/DPS368.o.d ${OBJECTDIR}/src/drv/SHT4x/SHT4x.o.d ${OBJECTDIR}/src/drv/SX1231H/SX1231H.o.d ${OBJECTDIR}/src/drv/SSD1803A/SSD1803A.o.d ${OBJECTDIR}/src/Main.o.d ${OBJECTDIR}/src/drv/HAL.o.d ${OBJECTDIR}/src/Interrupts.o.d ${OBJECTDIR}/src/Logging.o.d ${OBJECTDIR}/src/Display.o.d ${OBJECTDIR}/src/StringUtils.o.d ${OBJECTDIR}/src/app/Application.o.d ${OBJECTDIR}/src/app/PacketStructures.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/src/drv/DPS368/DPS368.o ${OBJECTDIR}/src/drv/SHT4x/SHT4x.o ${OBJECTDIR}/src/drv/SX1231H/SX1231H.o ${OBJECTDIR}/src/drv/SSD1803A/SSD1803A.o ${OBJECTDIR}/src/Main.o ${OBJECTDIR}/src/drv/HAL.o ${OBJECTDIR}/src/Interrupts.o ${OBJECTDIR}/src/PacketStructures.o ${OBJECTDIR}/src/Logging.o ${OBJECTDIR}/src/Application.o ${OBJECTDIR}/src/Display.o ${OBJECTDIR}/src/StringUtils.o
+OBJECTFILES=${OBJECTDIR}/src/drv/DPS368/DPS368.o ${OBJECTDIR}/src/drv/SHT4x/SHT4x.o ${OBJECTDIR}/src/drv/SX1231H/SX1231H.o ${OBJECTDIR}/src/drv/SSD1803A/SSD1803A.o ${OBJECTDIR}/src/Main.o ${OBJECTDIR}/src/drv/HAL.o ${OBJECTDIR}/src/Interrupts.o ${OBJECTDIR}/src/Logging.o ${OBJECTDIR}/src/Display.o ${OBJECTDIR}/src/StringUtils.o ${OBJECTDIR}/src/app/Application.o ${OBJECTDIR}/src/app/PacketStructures.o
 
 # Source Files
-SOURCEFILES=src/drv/DPS368/DPS368.c src/drv/SHT4x/SHT4x.c src/drv/SX1231H/SX1231H.c src/drv/SSD1803A/SSD1803A.c src/Main.c src/drv/HAL.c src/Interrupts.c src/PacketStructures.c src/Logging.c src/Application.c src/Display.c src/StringUtils.c
+SOURCEFILES=src/drv/DPS368/DPS368.c src/drv/SHT4x/SHT4x.c src/drv/SX1231H/SX1231H.c src/drv/SSD1803A/SSD1803A.c src/Main.c src/drv/HAL.c src/Interrupts.c src/Logging.c src/Display.c src/StringUtils.c src/app/Application.c src/app/PacketStructures.c
 
 
 
@@ -78,11 +78,31 @@ LDLIBSOPTIONS=
 # fixDeps replaces a bunch of sed/cat/printf statements that slow down the build
 FIXDEPS=fixDeps
 
+# The following macros may be used in the pre and post step lines
+_/_=\\
+ShExtension=.bat
+Device=PIC32MX120F032B
+ProjectDir="C:\Users\Aeryn\Documents\RF Project\git_repos\yellowcard_fw\yellowcard.X"
+ProjectName=yellowcard
+ConfName=basestation_development
+ImagePath="dist\basestation_development\${IMAGE_TYPE}\yellowcard.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}"
+ImageDir="dist\basestation_development\${IMAGE_TYPE}"
+ImageName="yellowcard.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}"
+ifeq ($(TYPE_IMAGE), DEBUG_RUN)
+IsDebug="true"
+else
+IsDebug="false"
+endif
+
 .build-conf:  ${BUILD_SUBPROJECTS}
 ifneq ($(INFORMATION_MESSAGE), )
 	@echo $(INFORMATION_MESSAGE)
 endif
 	${MAKE}  -f nbproject/Makefile-basestation_development.mk ${DISTDIR}/yellowcard.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+	@echo "--------------------------------------"
+	@echo "User defined post-build step: [${MP_CC_DIR}\xc32-objdump -S ${ImageDir}\${PROJECTNAME}.${IMAGE_TYPE}.elf > build\${ConfName}\${IMAGE_TYPE}\${ProjectName}.lst]"
+	@${MP_CC_DIR}\xc32-objdump -S ${ImageDir}\${PROJECTNAME}.${IMAGE_TYPE}.elf > build\${ConfName}\${IMAGE_TYPE}\${ProjectName}.lst
+	@echo "--------------------------------------"
 
 MP_PROCESSOR_OPTION=32MX120F032B
 MP_LINKER_FILE_OPTION=
@@ -143,23 +163,11 @@ ${OBJECTDIR}/src/Interrupts.o: src/Interrupts.c  .generated_files/flags/basestat
 	@${RM} ${OBJECTDIR}/src/Interrupts.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -mno-float -fomit-frame-pointer -D__BUILD_DEVELOPMENT__ -D__IS_BASESTATION__ -MP -MMD -MF "${OBJECTDIR}/src/Interrupts.o.d" -o ${OBJECTDIR}/src/Interrupts.o src/Interrupts.c    -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
 	
-${OBJECTDIR}/src/PacketStructures.o: src/PacketStructures.c  .generated_files/flags/basestation_development/b890973cb3cbb04cff252cc31f6b09123fd98d73 .generated_files/flags/basestation_development/da39a3ee5e6b4b0d3255bfef95601890afd80709
-	@${MKDIR} "${OBJECTDIR}/src" 
-	@${RM} ${OBJECTDIR}/src/PacketStructures.o.d 
-	@${RM} ${OBJECTDIR}/src/PacketStructures.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -mno-float -fomit-frame-pointer -D__BUILD_DEVELOPMENT__ -D__IS_BASESTATION__ -MP -MMD -MF "${OBJECTDIR}/src/PacketStructures.o.d" -o ${OBJECTDIR}/src/PacketStructures.o src/PacketStructures.c    -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
-	
 ${OBJECTDIR}/src/Logging.o: src/Logging.c  .generated_files/flags/basestation_development/b26ad803a610c836e6aefc442cf5753189990da9 .generated_files/flags/basestation_development/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/Logging.o.d 
 	@${RM} ${OBJECTDIR}/src/Logging.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -mno-float -fomit-frame-pointer -D__BUILD_DEVELOPMENT__ -D__IS_BASESTATION__ -MP -MMD -MF "${OBJECTDIR}/src/Logging.o.d" -o ${OBJECTDIR}/src/Logging.o src/Logging.c    -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
-	
-${OBJECTDIR}/src/Application.o: src/Application.c  .generated_files/flags/basestation_development/289e11fc860d5c0776353c40eac7ad282d56ef26 .generated_files/flags/basestation_development/da39a3ee5e6b4b0d3255bfef95601890afd80709
-	@${MKDIR} "${OBJECTDIR}/src" 
-	@${RM} ${OBJECTDIR}/src/Application.o.d 
-	@${RM} ${OBJECTDIR}/src/Application.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -mno-float -fomit-frame-pointer -D__BUILD_DEVELOPMENT__ -D__IS_BASESTATION__ -MP -MMD -MF "${OBJECTDIR}/src/Application.o.d" -o ${OBJECTDIR}/src/Application.o src/Application.c    -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
 	
 ${OBJECTDIR}/src/Display.o: src/Display.c  .generated_files/flags/basestation_development/56a02aee7b52e5bf919704ce6c24022765ce4dea .generated_files/flags/basestation_development/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}/src" 
@@ -172,6 +180,18 @@ ${OBJECTDIR}/src/StringUtils.o: src/StringUtils.c  .generated_files/flags/basest
 	@${RM} ${OBJECTDIR}/src/StringUtils.o.d 
 	@${RM} ${OBJECTDIR}/src/StringUtils.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -mno-float -fomit-frame-pointer -D__BUILD_DEVELOPMENT__ -D__IS_BASESTATION__ -MP -MMD -MF "${OBJECTDIR}/src/StringUtils.o.d" -o ${OBJECTDIR}/src/StringUtils.o src/StringUtils.c    -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	
+${OBJECTDIR}/src/app/Application.o: src/app/Application.c  .generated_files/flags/basestation_development/d074f449bcaecfadf09b6e324691cbb5c491817a .generated_files/flags/basestation_development/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}/src/app" 
+	@${RM} ${OBJECTDIR}/src/app/Application.o.d 
+	@${RM} ${OBJECTDIR}/src/app/Application.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -mno-float -fomit-frame-pointer -D__BUILD_DEVELOPMENT__ -D__IS_BASESTATION__ -MP -MMD -MF "${OBJECTDIR}/src/app/Application.o.d" -o ${OBJECTDIR}/src/app/Application.o src/app/Application.c    -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	
+${OBJECTDIR}/src/app/PacketStructures.o: src/app/PacketStructures.c  .generated_files/flags/basestation_development/ad180b95110c51a52e10b2d13d0029ae67b24170 .generated_files/flags/basestation_development/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}/src/app" 
+	@${RM} ${OBJECTDIR}/src/app/PacketStructures.o.d 
+	@${RM} ${OBJECTDIR}/src/app/PacketStructures.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -mno-float -fomit-frame-pointer -D__BUILD_DEVELOPMENT__ -D__IS_BASESTATION__ -MP -MMD -MF "${OBJECTDIR}/src/app/PacketStructures.o.d" -o ${OBJECTDIR}/src/app/PacketStructures.o src/app/PacketStructures.c    -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
 	
 else
 ${OBJECTDIR}/src/drv/DPS368/DPS368.o: src/drv/DPS368/DPS368.c  .generated_files/flags/basestation_development/c2c68abf6bb806e792ebaa1a5fbaa1acf1f4d1fe .generated_files/flags/basestation_development/da39a3ee5e6b4b0d3255bfef95601890afd80709
@@ -216,23 +236,11 @@ ${OBJECTDIR}/src/Interrupts.o: src/Interrupts.c  .generated_files/flags/basestat
 	@${RM} ${OBJECTDIR}/src/Interrupts.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -mno-float -fomit-frame-pointer -D__BUILD_DEVELOPMENT__ -D__IS_BASESTATION__ -MP -MMD -MF "${OBJECTDIR}/src/Interrupts.o.d" -o ${OBJECTDIR}/src/Interrupts.o src/Interrupts.c    -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
 	
-${OBJECTDIR}/src/PacketStructures.o: src/PacketStructures.c  .generated_files/flags/basestation_development/527bd39ed311d51ba2c76f199c45f2046d183656 .generated_files/flags/basestation_development/da39a3ee5e6b4b0d3255bfef95601890afd80709
-	@${MKDIR} "${OBJECTDIR}/src" 
-	@${RM} ${OBJECTDIR}/src/PacketStructures.o.d 
-	@${RM} ${OBJECTDIR}/src/PacketStructures.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -mno-float -fomit-frame-pointer -D__BUILD_DEVELOPMENT__ -D__IS_BASESTATION__ -MP -MMD -MF "${OBJECTDIR}/src/PacketStructures.o.d" -o ${OBJECTDIR}/src/PacketStructures.o src/PacketStructures.c    -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
-	
 ${OBJECTDIR}/src/Logging.o: src/Logging.c  .generated_files/flags/basestation_development/5eab801f621e1e200c41c10644152dcbac631f48 .generated_files/flags/basestation_development/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/Logging.o.d 
 	@${RM} ${OBJECTDIR}/src/Logging.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -mno-float -fomit-frame-pointer -D__BUILD_DEVELOPMENT__ -D__IS_BASESTATION__ -MP -MMD -MF "${OBJECTDIR}/src/Logging.o.d" -o ${OBJECTDIR}/src/Logging.o src/Logging.c    -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
-	
-${OBJECTDIR}/src/Application.o: src/Application.c  .generated_files/flags/basestation_development/6f3a15bfa47a1181dd202cdee6e623fcbed4ef74 .generated_files/flags/basestation_development/da39a3ee5e6b4b0d3255bfef95601890afd80709
-	@${MKDIR} "${OBJECTDIR}/src" 
-	@${RM} ${OBJECTDIR}/src/Application.o.d 
-	@${RM} ${OBJECTDIR}/src/Application.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -mno-float -fomit-frame-pointer -D__BUILD_DEVELOPMENT__ -D__IS_BASESTATION__ -MP -MMD -MF "${OBJECTDIR}/src/Application.o.d" -o ${OBJECTDIR}/src/Application.o src/Application.c    -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
 	
 ${OBJECTDIR}/src/Display.o: src/Display.c  .generated_files/flags/basestation_development/365da490f33fdfe2cf36519f93a75c1b3b8dbda5 .generated_files/flags/basestation_development/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}/src" 
@@ -245,6 +253,18 @@ ${OBJECTDIR}/src/StringUtils.o: src/StringUtils.c  .generated_files/flags/basest
 	@${RM} ${OBJECTDIR}/src/StringUtils.o.d 
 	@${RM} ${OBJECTDIR}/src/StringUtils.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -mno-float -fomit-frame-pointer -D__BUILD_DEVELOPMENT__ -D__IS_BASESTATION__ -MP -MMD -MF "${OBJECTDIR}/src/StringUtils.o.d" -o ${OBJECTDIR}/src/StringUtils.o src/StringUtils.c    -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	
+${OBJECTDIR}/src/app/Application.o: src/app/Application.c  .generated_files/flags/basestation_development/49ccdb1ea238a94f7f02add03f081b0969efa772 .generated_files/flags/basestation_development/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}/src/app" 
+	@${RM} ${OBJECTDIR}/src/app/Application.o.d 
+	@${RM} ${OBJECTDIR}/src/app/Application.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -mno-float -fomit-frame-pointer -D__BUILD_DEVELOPMENT__ -D__IS_BASESTATION__ -MP -MMD -MF "${OBJECTDIR}/src/app/Application.o.d" -o ${OBJECTDIR}/src/app/Application.o src/app/Application.c    -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	
+${OBJECTDIR}/src/app/PacketStructures.o: src/app/PacketStructures.c  .generated_files/flags/basestation_development/9e359bb8cfabf0c6914d6c433e013ad3fd6ab111 .generated_files/flags/basestation_development/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}/src/app" 
+	@${RM} ${OBJECTDIR}/src/app/PacketStructures.o.d 
+	@${RM} ${OBJECTDIR}/src/app/PacketStructures.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -ffunction-sections -mno-float -fomit-frame-pointer -D__BUILD_DEVELOPMENT__ -D__IS_BASESTATION__ -MP -MMD -MF "${OBJECTDIR}/src/app/PacketStructures.o.d" -o ${OBJECTDIR}/src/app/PacketStructures.o src/app/PacketStructures.c    -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
 	
 endif
 
@@ -259,7 +279,7 @@ endif
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 ${DISTDIR}/yellowcard.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
 	@${MKDIR} ${DISTDIR} 
-	${MP_CC} $(MP_EXTRA_LD_PRE) -g   -mprocessor=$(MP_PROCESSOR_OPTION) -O2 -o ${DISTDIR}/yellowcard.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}          -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)   -mreserve=data@0x0:0x1FC -mreserve=boot@0x1FC00490:0x1FC00BEF  -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,-D=__DEBUG_D,--gc-sections,--no-code-in-dinit,--no-dinit-in-serial-mem,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--warn-section-align,--memorysummary,${DISTDIR}/memoryfile.xml -mdfp="${DFP_DIR}"
+	${MP_CC} $(MP_EXTRA_LD_PRE) -g   -mprocessor=$(MP_PROCESSOR_OPTION) -O2 -o ${DISTDIR}/yellowcard.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}          -DXPRJ_basestation_development=$(CND_CONF)    $(COMPARISON_BUILD)      -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,-D=__DEBUG_D,--gc-sections,--no-code-in-dinit,--no-dinit-in-serial-mem,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--warn-section-align,--memorysummary,${DISTDIR}/memoryfile.xml -mdfp="${DFP_DIR}"
 	
 else
 ${DISTDIR}/yellowcard.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   

@@ -8,9 +8,9 @@
 #define	__INTERRUPTS_H__
 
 //Import any libraries used by this file
-#include <xc.h>           //Include the main header file for the XC32 compiler, provides register definitions
-#include <sys/attribs.h>  //Include the attribs file, contains macros for defining ISR functions
-#include "Application.h"  //Inlcude the Application header file, contains the application program and all associated threads/state machines
+#include <xc.h>               //Include the main header file for the XC32 compiler, provides register definitions
+#include <sys/attribs.h>      //Include the attribs file, contains macros for defining ISR functions
+#include "app/Application.h"  //Inlcude the Application header file, contains the application program and all associated threads/state machines
 
 
 //Define any variables that are external to this file
