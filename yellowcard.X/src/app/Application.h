@@ -12,13 +12,12 @@
 #include "../drv/DPS368/DPS368.h"      //Include the driver for the DPS368 barometric pressure sensor
 #include "../drv/SHT4x/SHT4x.h"        //Include the driver for the SHT4x temperature and humidity sensor
 #include "../drv/SX1231H/SX1231H.h"    //Include the driver for the SX1231H sub-1GHz radio IC
-#include "../drv/SSD1803A/SSD1803A.h"  //Include the driver for the SSD1803A LCD controller chipset
-#include "../Display.h"                //Include the display header file for displaying the screens onto the LCD
+#include "Display.h"                   //Include the display header file for displaying the screens onto the LCD
 #include "PacketStructures.h"          //Include the packet structures header file to use for handling packet creation
 
 //Include any libraries used specifically for development builds
 #ifdef __BUILD_DEVELOPMENT__
-//#include "Logging.h"                //Include the logging header file that contains all things logging related
+#include "../Logging.h"                //Include the logging header file that contains all things logging related
 #endif
 
 
@@ -35,14 +34,13 @@ typedef enum
 } radioState_t;
 
 
-//Application Configuration flash memory allocation
-extern const uint8_t __attribute__ ((space(prog), section(".app_config"))) configNodeID;
-extern const uint32_t __attribute__ ((space(prog), section(".app_config"))) configSampleInterval;
-extern const uint32_t __attribute__ ((space(prog), section(".app_config"))) configRadioCarrier;
-extern const uint16_t __attribute__ ((space(prog), section(".app_config"))) configRadioBitrate;
-
-
 //Define any variables that are external to this file
+//Application Configuration
+extern const uint16_t configNodeID;          //Contains the Node ID of the device
+extern const uint32_t configSampleInterval;  //Specifies the delay time between each measurement
+extern const uint32_t configRadioCarrier;    //Contains the carrier frequency the radio will operate on
+extern const uint16_t configRadioBitrate;    //Contains the bit-rate that the radio will operate at
+
 //Sensor Thread
 extern volatile sensorState_t sensorThreadState;  //Used to track where program execution is currently taking place within the sensor thread
 extern const void (*sensorFunctionTable[])();     //Provides a lookup table of handler functions for the sensor state machine
@@ -54,6 +52,7 @@ extern float mostRecentPres;                      //Holds the most recent barome
 //Radio Thread
 extern volatile radioState_t radioThreadState;  //Used to track where program execution is currently taking place within the radio thread
 extern const void (*radioFunctionTable[])();    //Provides a lookup table of handler functions for the radio state machine
+
 extern uint8_t txBuffer[0x00000042];            //All packets to be sent on air are to be written here
 extern uint8_t rxBuffer[0x00000042];            //All packets received from the radio are available here
 extern uint32_t txAttempts;                     //Counts how many retransmission attempts are left before a timeout
@@ -75,7 +74,7 @@ extern void __attribute__ ((section(".thread_handlers"))) sensorMeasureFail();  
 extern void __attribute__ ((section(".thread_handlers"))) radioProcessInterrupts();  //Process Interrupt Function, handles interrupt assertions placed by the radio
 extern void __attribute__ ((section(".thread_handlers"))) radioStartRX();            //Start RX Function, puts the radio into receive mode and prepares for packet reception
 extern void __attribute__ ((section(".thread_handlers"))) radioStartTX();            //Start TX Function, instructs the radio to begin transmitting the next available packet
-extern void __attribute__ ((section(".thread_handlers"))) radioGetPayload();         //Get Payload Function, reads the newly received payload data from the radio's FIFO buffer
+extern void __attribute__ ((section(".thread_handlers"))) radioGetPayload();         //Get Payload Function, reads the newly received payload data from the radios FIFO buffer
 extern void __attribute__ ((section(".thread_handlers"))) radioTimeoutRX();          //Radio Receive Timeout Function, handles timeout events for the radio while in receive mode
 
 //Utility Functions

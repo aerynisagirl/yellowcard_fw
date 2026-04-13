@@ -26,11 +26,11 @@ inline void setupInterrupts()
     IPC4 = 0x0C000000;   //Set the External Interrupt 4 priority to level 3
     IPC6 = 0x00000800;   //Set the RTCC interrupt priority to level 2
     IPC8 = 0x00040000;   //Set the Change Notice interrupt priority to level 1
-    IPC10 = 0x00080000;  //Set the DMA 2 interrupt priority to level 2
+    IPC10 = 0x08000000;  //Set the DMA Channel 3 interrupt priority to level 2
 
     IEC0 = 0x40800210;  //Enable the Timer 1 period match, Timer 2 period match, RTCC, and 4th external interrupts
-    IEC1 = 0x40000000;
-//    IEC1 = 0x40004000;  //Enable the DMA 2 abort/complete interrupt and Port B change notification interrupts
+    IEC1 = 0x80000000;  //Enable the DMA Channel 3 abort/complete interrupt
+//    IEC1 = 0x80004000;  //Enable the DMA Channel 3 abort/complete interrupt and Port B change notification interrupts
 
     asm volatile ("ei");  //Enable global interrupts again
 }
@@ -52,6 +52,12 @@ void __ISR(_TIMER_1_VECTOR, IPL3SOFT) timer1PeriodMatchISR()
     IFS0CLR = 0x00000010;  //Clear the Timer 1 interrupt flag
 
     T1CONCLR = 0x00008000;//Stop Timer 1 to prevent future unwanted interrupts
+
+#ifdef __BUILD_DEVELOPMENT__
+    startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                               LOGSTRINGS_THREADSTATES_RADIO[radioThreadState],
+                                                               LOGSTRINGS_THREADSTATES_RADIO_RXTIMEOUT));
+#endif
     
     radioThreadState = RADIO_RX_TIMEOUT;  //Generate an RX timeout event for the radio thread by changing its state to RADIO_RX_TIMEOUT
 }
@@ -63,15 +69,27 @@ void __ISR(_TIMER_2_VECTOR, IPL3SOFT) timer2PeriodMatchISR()
 
     T2CONCLR = 0x00008000;  //Stop Timer 2 to prevent future unwanted interrupts
 
+#ifdef __BUILD_DEVELOPMENT__
+    startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                               LOGSTRINGS_THREADSTATES_RADIO[radioThreadState],
+                                                               LOGSTRINGS_THREADSTATES_RADIO_STARTRX));
+#endif
+
     radioThreadState = RADIO_START_RX;  //Put the radio back into RX mode by changing the radio threads state to RADIO_START_RX
 }
 
 //External Interrupt 4 Handler Function, called on the rising edge of INT4
 void __ISR(_EXTERNAL_4_VECTOR, IPL3SOFT) int4ISR()
 {
-    IFS0CLR = 0x00800000;  //Clear the INT4 interrupt flag
+    IFS0CLR = 0x00800000;  //Clear the INT4 interrupt flag 
 
-    T2CONCLR = 0x00008000;                       //Stop Timer 2 to prevent future unwnated interrupts
+    T2CONCLR = 0x00008000;  //Stop Timer 2 to prevent future unwnated interrupts
+
+#ifdef __BUILD_DEVELOPMENT__
+    startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                               LOGSTRINGS_THREADSTATES_RADIO[radioThreadState],
+                                                               LOGSTRINGS_THREADSTATES_RADIO_PROCESSINTERRUPT));
+#endif
 
     radioThreadState = RADIO_PROCESS_INTERRUPT;  //Handle the radio interrupt by putting the radio thread into the RADIO_PROCESS_INTERRUPT state
 }
@@ -84,18 +102,24 @@ void __ISR(_RTCC_VECTOR, IPL2SOFT) rtccAlarmISR()
 {
     IFS0CLR = 0x40000000;  //Clear the RTCC interrupt flag
 
-    RTCCON = 0x00002208;                            //Stop and disable the RTCC now that we have woken up again
+    RTCCON = 0x00002208;  //Stop and disable the RTCC now that we have woken up again
+
+#ifdef __BUILD_DEVELOPMENT__
+    startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_SENSOR,
+                                                              LOGSTRINGS_THREADSTATES_SENSOR[sensorThreadState],
+                                                              LOGSTRINGS_THREADSTATES_SENSOR_STARTMEASUREMENTS));
+#endif
+
     sensorThreadState = SENSOR_START_MEASUREMENTS;  //Begin a new measurement by putting the sensor thread into the SENSOR_START_MEASUREMENTS state
 }
 
-//DMA Channel 2 Interrupt Handler Function, called when DMA2 aborts or finishes transferring a block of data
-void __ISR(_DMA_2_VECTOR, IPL2SOFT) dma2ISR()
+//DMA Channel 3 Interrupt Handler Function, called when DMA3 aborts or finishes transferring a block of data
+void __ISR(_DMA3_VECTOR, IPL2SOFT) dma3ISR()
 {
-    IFS1CLR = 0x40000000;  //Clear the DMA 2 interrupt flag
+    IFS1CLR = 0x80000000;  //Clear the DMA Channel 3 interrupt flag
 
     //Not sure I've done this, but it doesn't to behave correctly without this /shrug
-    DCH2INT = 0x00080000;           //Clear the interrupts flags for DMA 2 itself
-    while (!(U2STA & 0x00000100));  //Wait until the transmission has completed fully before leaving
+    DCH3INT = 0x00080000;           //Clear the interrupts flags for DMA 3 itself
 }
 
 

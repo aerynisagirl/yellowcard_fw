@@ -12,9 +12,9 @@
 
 
 //Define any constants related to packet lengths
-#define PACKET_LENGTH_ACKNOWLEDGE      0x00000005
-#define PACKET_LENGTH_EVENT            0x00000007
-#define PACKET_LENGTH_MEASUREREPORT    0x0000000B
+#define PACKET_LENGTH_ACKNOWLEDGE      0x00000006
+#define PACKET_LENGTH_EVENT            0x00000008
+#define PACKET_LENGTH_MEASUREREPORT    0x0000000C
 
 
 //Define any enums used within this file
@@ -33,7 +33,8 @@ typedef enum
 typedef struct
 {
     uint8_t length;
-    uint8_t sourceAddress;
+    uint8_t sourceAddrMSB;
+    uint8_t sourceAddrLSB;
     uint8_t payloadType;
     uint8_t frameNumberMSB;
     uint8_t frameNumberLSB;
@@ -90,7 +91,7 @@ typedef union
 
 //Define any variables that are external to this file
 extern volatile uint16_t globalFrameCount;  //Used to determine what the frame number of the next packet will be
-extern const uint8_t configNodeID;          //The Node ID set within the application configuration region of flash memory
+extern const uint16_t configNodeID;         //The Node ID set within the application configuration region of flash memory
 
 
 //Define prototypes for functions used in the Packet Structures source file

@@ -12,16 +12,14 @@
  *  Variables  *
  ***************/
 
-
 //DMA Buffer
-volatile uint8_t dmaBufferTxUART[0x000000FF];  //Create a 256 byte array to use for storing the message to be transmitting out of UART
+uint8_t dmaBufferTxUART[0x00000FF];  //Create a 256 byte array to use for storing the message to be transmitting out of UART
 
 
 
 /***********************
  *  System Oscillator  *
  ***********************/
-
 
 //Allow Sleep Mode Function, selects which low-power mode the CPU will enter on the WAIT instruction, zero forces IDLE mode
 void allowSleepMode(uint32_t enabled)
@@ -80,7 +78,6 @@ void changeClockSpeed(SysClkSpeed_t newClockSpeed)
 /*********
  *  I2C  *
  *********/
-
 
 //Write To I2C Function, sends the provided array of bytes to the provided slave address using the I2C2 peripheral
 uint32_t writeToI2C(uint32_t address, const uint8_t *bytes, uint32_t length)
@@ -158,7 +155,6 @@ uint32_t readFromI2C(uint32_t address, uint8_t *bytes, uint32_t readLength, uint
  *  UART  *
  **********/
 
-
 //Write to UART Function, sends the provided array of bytes out the serial port through UART2
 void writeToUART(const uint8_t *bytes, uint32_t length)
 {
@@ -171,15 +167,24 @@ void writeToUART(const uint8_t *bytes, uint32_t length)
     while (!(U2STA & 0x00000100));  //Wait until the transmission has completed fully before leaving
 }
 
-//Start Transmission UART Function, begins sending the provided string over UART
-void startTxUART(const uint8_t *bytes, const uint32_t *length)
-{
-    DCH2SSA = KVA_TO_PA(bytes);  //Assign the source address of DMA2 to the physical address of the provided buffer
-    DCH2SSIZ = *length;          //Set the length of the source location to the provided length value
-    DCH2CON = 0x00000080;        //Enable channel 2 of the DMA peripheral
-    DCH2ECON = 0x000037B0;       //Start the transfer process by forcing the first cell transfer on DMA2
 
-//    while (DCH2CON & 0x00008000);  //Wait until the block transfer has fully completed
+
+/*********
+ *  DMA  *
+ *********/
+
+//Start Transfer DMA 3 Function, configures DMA Channel 3 to begin using the provided byte array as the source pointer
+void startTransferDMA3(const uint8_t *bytes, uint32_t length)
+{
+    DCH3SSA = KVA_TO_PA(bytes);  //Assign the source address of DMA Channel 3 to the physical address of the provided buffer
+    DCH3SSIZ = length;           //Set the length of the source location to the provided length
+    DCH3CON = 0x00000080;        //Enable DMA Channel 3
+    DCH3ECON = 0x000037B0;       //Start the transfer process by forcing the first cell transfer on DMA Channel 3
+
+    while ((DCH3CON & 0x00008000) || !(U2STA & 0x00000100))
+    {
+//        asm volatile ("wait");  //Invoke the WAIT instruction to halt the processor for the time being
+    }
 }
 
 

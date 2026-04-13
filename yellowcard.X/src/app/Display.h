@@ -8,10 +8,10 @@
 #define __DISPLAY_H__
 
 //Import any libraries used by this file
-#include <xc.h>                     //Include the main header file for the XC32 compiler, provides register definitions
-#include <string.h>                 //Include the default string library which has some handy memory and string manipulation functions
-#include "StringUtils.h"            //Include the string utilities header for the data to string conversion functions
-#include "drv/SSD1803A/SSD1803A.h"  //Include the driver for the SSD1803A LCD controller chipset
+#include <xc.h>                        //Include the main header file for the XC32 compiler, provides register definitions
+#include <string.h>                    //Include the default string library which has some handy memory and string manipulation functions
+#include "../StringUtils.h"            //Include the string utilities header for the data to string conversion functions
+#include "../drv/SSD1803A/SSD1803A.h"  //Include the driver for the SSD1803A LCD controller chipset
 
 
 

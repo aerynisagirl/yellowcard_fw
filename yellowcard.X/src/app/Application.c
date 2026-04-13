@@ -9,17 +9,6 @@
 
 
 /********************************
- *  Application  Configuration  *
- ********************************/
-
-const uint8_t  configNodeID = 0x00;                //Sets the device's address
-const uint16_t configRadioBitrate = 2400;          //Sets the radio baud rate
-const uint32_t configRadioCarrier = 902500000;     //Sets the radio carrier frequency in Hz
-const uint32_t configSampleInterval = 0x00001500;  //Sets the time between measurements
-
-
-
-/********************************
  *  State Machines And Threads  *
  ********************************/
 
@@ -105,6 +94,12 @@ void sensorStartMeasurements()
 
     LATBSET = 0x00000400;  //Turn on the status LED to indicate the measurement process has started
 
+#ifdef __BUILD_DEVELOPMENT__
+    startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_SENSOR,
+                                                               LOGSTRINGS_THREADSTATES_SENSOR_STARTMEASUREMENTS,
+                                                               LOGSTRINGS_THREADSTATES_SENSOR_GETPRESSURE));
+#endif
+
     sensorThreadState = SENSOR_GET_PRESSURE;  //Next state of the thread is SENSOR_GET_TEMPERATURE
 }
 
@@ -119,6 +114,12 @@ void sensorGetPressure()
 
     mostRecentPres = convertToPressureFromDPS368(*resultBuffer, *(resultBuffer + 0x00000001));  //Convert the raw sensor data into the compensated barometric pressure in Pascal
 
+#ifdef __BUILD_DEVELOPMENT__
+    startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_SENSOR,
+                                                               LOGSTRINGS_THREADSTATES_SENSOR_GETPRESSURE,
+                                                               LOGSTRINGS_THREADSTATES_SENSOR_GETTEMPERATURE));
+#endif
+
     sensorThreadState = SENSOR_GET_TEMPERATURE;  //Next state of the thread is SENSOR_GET_TEMPERATURE
 }
 
@@ -132,11 +133,17 @@ void sensorGetTemperature()
     mostRecentTemp = convertToTempCFromSHT4X((uint16_t *) resultBuffer);            //Convert the raw temperature data into it's compensated form in Celsius
     mostRecentRH = convertToRHFromSHT4X((uint16_t *) (resultBuffer + 0x00000001));  //Convert the raw humidity data into it's compensated form as a percentage
 
-    //Reset the RTC now that the measurements have been collected
+    //Reset the RTCC now that the measurements have been collected
     RTCDATE = 0x00000000;  //Reset the date value back to 0
     RTCTIME = 0x00000000;  //Reset the time value back to 0
     RTCALRM = 0x00008600;  //Setup a single alarm to occur at the pre-set interval
     RTCCON = 0x0000A248;   //Enable the RTCC and start counting
+
+#ifdef __BUILD_DEVELOPMENT__
+    startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_SENSOR,
+                                                               LOGSTRINGS_THREADSTATES_SENSOR_GETTEMPERATURE,
+                                                               LOGSTRINGS_THREADSTATES_SENSOR_REPORTMEASUREMENTS));
+#endif
 
     sensorThreadState = SENSOR_REPORT_MEASUREMENTS;  //Next state of the thread is SENSOR_REPORT_MEASUREMENTS
 }
@@ -160,6 +167,12 @@ void sensorReportMeasurements()
     
     LATBCLR = 0x00000400;
 
+#ifdef __BUILD_DEVELOPMENT__
+        startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_SENSOR,
+                                                                   LOGSTRINGS_THREADSTATES_SENSOR_REPORTMEASUREMENTS,
+                                                                   LOGSTRINGS_THREADSTATES_SENSOR_SLEEP));
+#endif
+
     sensorThreadState = SENSOR_SLEEP;  //Next state of the thread is SENSOR_SLEEP
 #endif
 #ifdef __IS_SENSORNODE__
@@ -172,8 +185,21 @@ void sensorReportMeasurements()
                                &mostRecentTemp, &mostRecentRH, &mostRecentPres);
 
         TMR1 = 0x00000000;                  //Clear the Timer 1 counter, instructs the thread to enter listen mode during RX periods
-        txAttempts = 0x00000003;            //Allow a maximum of 3 attempts to send the packet before giving up and going back to sleep
+        txAttempts = 0x00000001;            //Allow a maximum of 3 attempts to send the packet before giving up and going back to sleep
+
+#ifdef __BUILD_DEVELOPMENT__
+        startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                                   LOGSTRINGS_THREADSTATES_RADIO[radioThreadState],
+                                                                   LOGSTRINGS_THREADSTATES_RADIO_STARTTX));
+#endif
+
         radioThreadState = RADIO_START_TX;  //Request that the radio start sending the new packet
+
+#ifdef __BUILD_DEVELOPMENT__
+        startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_SENSOR,
+                                                                   LOGSTRINGS_THREADSTATES_SENSOR_REPORTMEASUREMENTS,
+                                                                   LOGSTRINGS_THREADSTATES_SENSOR_SLEEP));
+#endif
 
         sensorThreadState = SENSOR_SLEEP;  //Next state of the thread is SENSOR_SLEEP
     }
@@ -184,6 +210,12 @@ void sensorReportMeasurements()
 void sensorMeasureFail()
 {
     //Do something
+
+#ifdef __BUILD_DEVELOPMENT__
+    startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_SENSOR,
+                                                               LOGSTRINGS_THREADSTATES_SENSOR_MEASUREFAIL,
+                                                               LOGSTRINGS_THREADSTATES_SENSOR_SLEEP));
+#endif
 
     sensorThreadState = SENSOR_SLEEP;  //Next state of the thread is SENSOR_SLEEP
 }
@@ -216,14 +248,34 @@ void radioProcessInterrupts()
             txAttempts = 0x00000000;         //Reset the txAttempts counter back to 0
 
 #ifdef __IS_BASESTATION__
+
+#ifdef __BUILD_DEVELOPMENT__
+            startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                                       LOGSTRINGS_THREADSTATES_RADIO_PROCESSINTERRUPT,
+                                                                       LOGSTRINGS_THREADSTATES_RADIO_STARTRX));
+#endif
+
             radioThreadState = RADIO_START_RX;  //Next state of the thread is RADIO_START_RX
 #endif
 #ifdef __IS_SENSORNODE__
+
+#ifdef __BUILD_DEVELOPMENT__
+            startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                                       LOGSTRINGS_THREADSTATES_RADIO_PROCESSINTERRUPT,
+                                                                       LOGSTRINGS_THREADSTATES_RADIO_SLEEP));
+#endif
+
             radioThreadState = RADIO_SLEEP;  //Next state of the thread is RADIO_SLEEP
 #endif
         }
         else
         {
+#ifdef __BUILD_DEVELOPMENT__
+            startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                                       LOGSTRINGS_THREADSTATES_RADIO_PROCESSINTERRUPT,
+                                                                       LOGSTRINGS_THREADSTATES_RADIO_STARTRX));
+#endif
+
             TMR1 = 0x00000000;                  //Set the Timer 1 counter to 0, requests that the listen mode becomes active
             radioThreadState = RADIO_START_RX;  //Next state of the thread is RADIO_START_RX
         }
@@ -235,6 +287,12 @@ void radioProcessInterrupts()
     if (radioIRQdata & 0x00000004)
     {
         setDeviceModeSX1231H(SLEEP);  //Put the radio to sleep now that a packet has been received
+
+#ifdef __BUILD_DEVELOPMENT__
+        startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                                   LOGSTRINGS_THREADSTATES_RADIO_PROCESSINTERRUPT,
+                                                                   LOGSTRINGS_THREADSTATES_RADIO_RECEIVEPACKET));
+#endif
 
         radioThreadState = RADIO_RECEIVE_PACKET;  //Next state of the thread is RADIO_RECEIVE_PACKET
         return;                                   //Leave, we're done here now
@@ -254,9 +312,21 @@ void radioProcessInterrupts()
         T1CONCLR = 0x00008000;  //Stop Timer 1 while attempting to receive a new packet
         T2CONSET = 0x00008000;  //Start Timer 2 to act as a time-out generator in the event that no packet is actually received
 
+#ifdef __BUILD_DEVELOPMENT__
+        startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                                   LOGSTRINGS_THREADSTATES_RADIO_PROCESSINTERRUPT,
+                                                                   LOGSTRINGS_THREADSTATES_RADIO_IDLE));
+#endif
+
         radioThreadState = RADIO_IDLE;  //Next state of the thread is RADIO_IDLE
         return;                         //Leave, we're done here now
     }
+
+#ifdef __BUILD_DEVELOPMENT__
+    startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                               LOGSTRINGS_THREADSTATES_RADIO_PROCESSINTERRUPT,
+                                                               LOGSTRINGS_THREADSTATES_RADIO_SLEEP));
+#endif
 
     radioThreadState = RADIO_SLEEP;  //Next state of the thread is RADIO_SLEEP by default
 }
@@ -275,6 +345,12 @@ void radioStartTX()
 
     txAttempts--;  //Decrement the retransmission counter by 1
 
+#ifdef __BUILD_DEVELOPMENT__
+    startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                               LOGSTRINGS_THREADSTATES_RADIO_STARTTX,
+                                                               LOGSTRINGS_THREADSTATES_RADIO_SLEEPTX));
+#endif
+
     radioThreadState = RADIO_SLEEP_TX;  //Next state of the thread is RADIO_SLEEP_TX
 }
 
@@ -292,6 +368,12 @@ void radioStartRX()
     {
         T1CONSET = 0x00008000;  //Start Timer 1
     }
+
+#ifdef __BUILD_DEVELOPMENT__
+    startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                               LOGSTRINGS_THREADSTATES_RADIO_STARTRX,
+                                                               LOGSTRINGS_THREADSTATES_RADIO_SLEEPRX));
+#endif
 
     radioThreadState = RADIO_SLEEP_RX;  //Next state of the thread is RADIO_SLEEP_RX
 }
@@ -313,6 +395,12 @@ void radioGetPayload()
     {
         txAttempts = 0x00000000;  //Clear txAttempts to reset the transmission retry counter
 
+#ifdef __BUILD_DEVELOPMENT__
+        startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                                   LOGSTRINGS_THREADSTATES_RADIO_RECEIVEPACKET,
+                                                                   LOGSTRINGS_THREADSTATES_RADIO_SLEEP));
+#endif
+
         radioThreadState = RADIO_SLEEP;  //Next state of the thread is RADIO_SLEEP
     }
     else
@@ -322,16 +410,35 @@ void radioGetPayload()
 
         TMR1 = 0x0000FFFF;                  //Write an arbitrary value to the Timer 1 counter, ensures that the thread enters sleep after transmission
         txAttempts = 0x00000000;            //Only allow 1 transmission
+
+#ifdef __BUILD_DEVELOPMENT__
+        startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                                   LOGSTRINGS_THREADSTATES_RADIO_RECEIVEPACKET,
+                                                                   LOGSTRINGS_THREADSTATES_RADIO_STARTTX));
+#endif
+
         radioThreadState = RADIO_START_TX;  //Instruct the thread to begin the transmission by changing its state to RADIO_START_TX
 #endif
 #ifdef __IS_SENSORNODE__
         //Determine if we're supposed to go back into RX mode or not
         if (!TMR1)
         {
+#ifdef __BUILD_DEVELOPMENT__
+            startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                                       LOGSTRINGS_THREADSTATES_RADIO_RECEIVEPACKET,
+                                                                       LOGSTRINGS_THREADSTATES_RADIO_STARTRX));
+#endif
+
             radioThreadState = RADIO_START_RX;  //Next state of the thread is RADIO_START_RX
         }
         else
         {
+#ifdef __BUILD_DEVELOPMENT__
+            startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                                       LOGSTRINGS_THREADSTATES_RADIO_RECEIVEPACKET,
+                                                                       LOGSTRINGS_THREADSTATES_RADIO_SLEEP));
+#endif
+
             radioThreadState = RADIO_SLEEP;  //Next state of the thread is RADIO_SLEEP
         }
 #endif
@@ -362,10 +469,22 @@ void radioTimeoutRX()
     //Check if we're allowed to try sending the packet again
     if (txAttempts)
     {
+#ifdef __BUILD_DEVELOPMENT__
+        startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                                   LOGSTRINGS_THREADSTATES_RADIO_RXTIMEOUT,
+                                                                   LOGSTRINGS_THREADSTATES_RADIO_STARTTX));
+#endif
+
         radioThreadState = RADIO_START_TX;  //Next state of the thread is RADIO_START_TX
     }
     else
     {
+#ifdef __BUILD_DEVELOPMENT__
+        startTransferDMA3(dmaBufferTxUART, constructThreadStateLog(dmaBufferTxUART, LOGSTRINGS_THREADNAME_RADIO,
+                                                                   LOGSTRINGS_THREADSTATES_RADIO_RXTIMEOUT,
+                                                                   LOGSTRINGS_THREADSTATES_RADIO_SLEEP));
+#endif
+
         radioThreadState = RADIO_SLEEP;  //Next state of the thread is RADIO_SLEEP
     }
 }

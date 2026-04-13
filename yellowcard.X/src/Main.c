@@ -8,6 +8,17 @@
 
 
 
+/********************************
+ *  Application  Configuration  *
+ ********************************/
+
+const uint16_t configNodeID = 0x0000;              //Sets the device's address
+const uint32_t configSampleInterval = 0x00001500;  //Sets the time between measurements
+const uint32_t configRadioCarrier = 902500000;     //Sets the radio carrier frequency in Hz
+const uint16_t configRadioBitrate = 2400;          //Sets the radio baud rate
+
+
+
 /******************
  *  Main Program  *
  ******************/
@@ -46,23 +57,23 @@ inline void setupMCU()
 
 #ifdef __BUILD_DEVELOPMENT__
     //Enable and configure the second UART peripheral, UART2
-    U2BRG = 0x00000019;   //Set the baud rate of UART2 to operate at roughly 19200bps
+    U2BRG = 0x00000001;   //Set the baud rate of UART2 to operate at roughly 19200bps
     U2STA = 0x00008400;   //Enable the transmitter with the interrupt asserted on an empty TX buffer
     U2MODE = 0x00008000;  //Enable UART2 in standard baud mode
 
     //Enable the DMA peripheral
     DMACON = 0x00008000;
 
-    //Configure DMA 1 for SPI TX transfers
+    //Configure DMA1 for SPI TX transfers
 
-    //Configure DMA 2 for UART TX transfers
-    DCH2DSIZ = 0x00000001;          //Destination pointer has a size of 1 byte
-    DCH2CSIZ = 0x00000001;          //Use a cell size of 1, ensuring only 1 byte is transfered at a time
-    DCH2DSA = KVA_TO_PA(&U2TXREG);  //Assign the destination address of DMA2 to the transmit buffer of UART2
-    DCH2DAT = 0x00000000;           //Use a NULL character as the termination byte for the transfer sequence
-    DCH2CON = 0x00000000;           //Setup DMA2 for pattern matching with the lowest DMA priority
-    DCH2ECON = 0x00003730;          //Using pattern match mode, allow start events from IRQ 55 (UART2 TX interrupt)
-    DCH2INT = 0x00080000;           //Enable block transfer complete interrupts for DMA 2
+    //Configure DMA3 for UART TX transfers
+    DCH3DSIZ = 0x00000001;          //Destination pointer has a size of 1 byte
+    DCH3CSIZ = 0x00000001;          //Use a cell size of 1, ensuring only 1 byte is transfered at a time
+    DCH3DSA = KVA_TO_PA(&U2TXREG);  //Assign the destination address of DMA3 to the transmit buffer of UART2
+    DCH3DAT = 0x00000000;           //Use a NULL character as the termination byte for the transfer sequence
+    DCH3CON = 0x00000000;           //Setup DMA3 for pattern matching with the lowest DMA priority
+    DCH3ECON = 0x00003730;          //Using pattern match mode, allow start events from IRQ 55 (UART2 TX interrupt)
+    DCH3INT = 0x00080000;           //Enable block transfer complete interrupts for DMA3
 #endif
 
     //Prepare for configuration of the RTCC peripheral
@@ -84,7 +95,7 @@ inline void setupMCU()
 
     //Configure Timer 2
     PR2 = 0x0000FFFF;    //Use a period of 0xFFFF for Timer 2
-    T2CON = 0x00000000;  //Enable Timer 2 using PBCLK as the source with no pre-scalar
+    T2CON = 0x00000050;  //Enable Timer 2 using PBCLK as the source with a 1:32 pre-scalar
     TMR2 = 0x00000000;   //Clear the contents of the Timer 2 count register
 
     setupInterrupts();  //Setup the interrupt controller of the MCU and enable interrupts
@@ -107,7 +118,7 @@ inline void setupExternals()
 #ifdef __IS_BASESTATION__
     //Initialize the LCD display
     initializeSSD1803A(VIEW_BOTTOM, LINES_4, BIAS_6TH, IR1);  //Send the desired operating configuration to the LCD controller chipset
-    //setContrastSSD1803A(0x0000003F);                        //Set the LCDs contrast
+    setContrastSSD1803A(0x0000003F);                        //Set the LCDs contrast
 #endif
 
     while (counter--);  //Wait a little bit before handling the barometric pressure sensor, she's a little bit sensitive
@@ -141,14 +152,20 @@ void main()
     //Infinite loop of death mwuahahaha (don't worry, we do actually go to sleep in these)
     while (0xFFFFFFFF)
     {
+        asm volatile ("di");                       //Disable interrupts while processing the threads
         sensorFunctionTable[sensorThreadState]();  //Invoke the handler function for the sensor thread located at the given index of the sensor lookup table
         radioFunctionTable[radioThreadState]();    //Invoke the handler function for the radio thread located at the given index of the radio lookup table
+        asm volatile ("ei");                       //Re-enable interrupts now that we're done with the threads
 
         uint32_t sleepEnabled = !(sensorThreadState | radioThreadState);  //Determine if all the threads are in their respective SLEEP modes
         allowSleepMode(sleepEnabled);                                     //Enable/Disable the use of sleep-mode on the MCU where appropriate
 
         uint32_t noWait = sensorThreadState + (radioThreadState & 0xFFFFFFFC);  //Combine all the thread states together excluding IDLE bits
-        if (!noWait) asm volatile ("wait");                                     //Invoke the WAIT instruction on the CPU
+        if (!noWait)
+        {
+            while ((DCH3CON & 0x00008000) || (!(U2STA & 0x00000100)));
+            asm volatile ("wait");  //Invoke the WAIT instruction on the CPU   
+        }
     }
 }
 

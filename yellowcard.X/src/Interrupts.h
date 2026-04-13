@@ -34,7 +34,7 @@ extern void int4ISR();               //External Interrupt 4 Handler Function, ca
 //  Priority 2
 extern void timer1PeriodMatchISR();  //Timer 1 Period Match Interrupt Handler Function, called when the TMR1 register matches PR1
 extern void rtccAlarmISR();          //RTCC Alarm Interrupt Handler Function, called whenever an alarm goes off within the RTCC
-extern void dma2ISR();               //DMA Channel 2 Interrupt Handler Function, called when DMA2 aborts or finishes transferring a block of data
+extern void dma3ISR();               //DMA Channel 3 Interrupt Handler Function, called when DMA3 aborts or finishes transferring a block of data
 
 //  Priority 1  (Lowest)
 extern void portChangeNoticeISR();   //Port Change Notice Interrupt Handler Function, called when any of the 3 buttons or reed switch changes state

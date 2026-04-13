@@ -61,7 +61,7 @@ uint32_t initializeDPS368(DPS368_precision_t presOversample, DPS368_background_t
     //Determine whether the temperature calibration coefficients are for the ASIC or MEMS sensor
     *arrayPointer = 0x28;  //Write the address of the COEF_SRCE register on the sensor into the array
 
-    if (!readFromI2C(DPS368_I2C_ADDR, arrayPointer, 0x00000001, 0x01)) return 0x00000000;  //Attempt to read the contents of the register, exiting the function when no response is obtained
+    if (!readFromI2C(DPS368_I2C_ADDR, arrayPointer, 0x00000001, 0x00000001)) return 0x00000000;  //Attempt to read the contents of the register, exiting the function when no response is obtained
 
     arrayPointer = dataBuffer;  //Re-point arrayPointer back to the first index of the dataBuffer array
     *arrayPointer++ = 0x06;     //Write the address of the PRS_CFG register in the sensor to the first index of the configuration bytes

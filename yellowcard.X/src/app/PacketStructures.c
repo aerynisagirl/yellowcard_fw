@@ -24,7 +24,8 @@ volatile uint16_t globalFrameCount = 0x0000;  //Create a 16-bit unsigned variabl
 void generateHeader(packetHeader_t *header, packetPayloadType_t packetType, uint8_t packetLength)
 {
     header->length = packetLength;                                       //Set the length of the packet to provided length value
-    header->sourceAddress = configNodeID;                                //Put the applications configured node ID value into the appropriate field in the header
+    header->sourceAddrMSB = (configNodeID & 0xFF00) >> 0x00000008;       //Mask out the upper byte of the devices node ID and put it as the source address MSB
+    header->sourceAddrLSB = configNodeID & 0x00FF;                       //Put the lower byte of the devices node ID into the source address LSB value
     header->payloadType = (uint8_t) packetType;                          //Set the type field of the header to the given payload type value
     header->frameNumberMSB = (globalFrameCount & 0xFF00) >> 0x00000008;  //Mask out the upper byte of the globalFrameCount variable, and write that byte to frameNumberMSB in the header
     header->frameNumberLSB = globalFrameCount++ & 0x00FF;                //Put the lower byte of globalFrameCount into frameNumberLSB, incrementing the contents of globalFrameCount by 1

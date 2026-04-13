@@ -8,9 +8,9 @@
 
 
 
-/***********************
- *  Logging Constants  *
- ***********************/
+/*********************
+ *  Logging Strings  *
+ *********************/
 
 const uint8_t logConstants_measurementReport[] = "\n\n\n\nMeasurement\n  Temperature:   C\n     Humidity:   %\n     Pressure:   Pa\0";
 const uint8_t logConstants_packet[] = "\n\nPacket\n   Length:  \n  Address:  \n     Type:  \n  Frame #:  \n      Raw: \0";
@@ -24,12 +24,83 @@ const uint8_t *logConstants_packetTypeLookup[] = {logConstants_packetType_acknow
                                                   logConstants_packetType_event,
                                                   logConstants_packetType_measureReport};
 
+const uint8_t LOGSTRINGS_ARROW[] = " -> ";
+const uint8_t LOGSTRINGS_THREADNAME_SENSOR[] = "Sensor Thread  :  \0";
+const uint8_t LOGSTRINGS_THREADNAME_RADIO[] = "Radio Thread   :  \0";
+
+const uint8_t LOGSTRINGS_THREADSTATES_SENSOR_SLEEP[] = "SLEEP\0";
+const uint8_t LOGSTRINGS_THREADSTATES_SENSOR_STARTMEASUREMENTS[] = "START_MEASUREMENTS\0";
+const uint8_t LOGSTRINGS_THREADSTATES_SENSOR_GETPRESSURE[] = "GET_PRESSURE\0";
+const uint8_t LOGSTRINGS_THREADSTATES_SENSOR_GETTEMPERATURE[] = "GET_TEMPERATURE\0";
+const uint8_t LOGSTRINGS_THREADSTATES_SENSOR_REPORTMEASUREMENTS[] = "REPORT_MEASUREMENTS\0";
+const uint8_t LOGSTRINGS_THREADSTATES_SENSOR_MEASUREFAIL[] = "MEASURE_FAIL\0";
+
+const uint8_t LOGSTRINGS_THREADSTATES_RADIO_SLEEP[] = "SLEEP\0";
+const uint8_t LOGSTRINGS_THREADSTATES_RADIO_SLEEPTX[] = "SLEEP_TX\0";
+const uint8_t LOGSTRINGS_THREADSTATES_RADIO_SLEEPRX[] = "SLEEP_RX\0";
+const uint8_t LOGSTRINGS_THREADSTATES_RADIO_IDLE[] = "IDLE\0";
+const uint8_t LOGSTRINGS_THREADSTATES_RADIO_PROCESSINTERRUPT[] = "PROCESS_INTERRUPT\0";
+const uint8_t LOGSTRINGS_THREADSTATES_RADIO_STARTTX[] = "START_TX\0";
+const uint8_t LOGSTRINGS_THREADSTATES_RADIO_STARTRX[] = "START_RX\0";
+const uint8_t LOGSTRINGS_THREADSTATES_RADIO_TXDONE[] = "TX_DONE\0";
+const uint8_t LOGSTRINGS_THREADSTATES_RADIO_RXDONE[] = "RX_DONE\0";
+const uint8_t LOGSTRINGS_THREADSTATES_RADIO_RECEIVEPACKET[] = "RECEIVE_PACKET\0";
+const uint8_t LOGSTRINGS_THREADSTATES_RADIO_RXTIMEOUT[] = "RX_TIMEOUT\0";
+
+const uint8_t *LOGSTRINGS_THREADSTATES_SENSOR[] = {
+                                                   LOGSTRINGS_THREADSTATES_SENSOR_SLEEP,
+                                                   LOGSTRINGS_THREADSTATES_SENSOR_STARTMEASUREMENTS,
+                                                   LOGSTRINGS_THREADSTATES_SENSOR_GETPRESSURE,
+                                                   LOGSTRINGS_THREADSTATES_SENSOR_GETTEMPERATURE,
+                                                   LOGSTRINGS_THREADSTATES_SENSOR_REPORTMEASUREMENTS,
+                                                   LOGSTRINGS_THREADSTATES_SENSOR_MEASUREFAIL
+                                                  };
+
+const uint8_t *LOGSTRINGS_THREADSTATES_RADIO[] = {
+                                                  LOGSTRINGS_THREADSTATES_RADIO_SLEEP,
+                                                  LOGSTRINGS_THREADSTATES_RADIO_SLEEPTX,
+                                                  LOGSTRINGS_THREADSTATES_RADIO_SLEEPRX,
+                                                  LOGSTRINGS_THREADSTATES_RADIO_IDLE,
+                                                  LOGSTRINGS_THREADSTATES_RADIO_PROCESSINTERRUPT,
+                                                  LOGSTRINGS_THREADSTATES_RADIO_STARTTX,
+                                                  LOGSTRINGS_THREADSTATES_RADIO_STARTRX,
+                                                  LOGSTRINGS_THREADSTATES_RADIO_TXDONE,
+                                                  LOGSTRINGS_THREADSTATES_RADIO_RXDONE,
+                                                  LOGSTRINGS_THREADSTATES_RADIO_RECEIVEPACKET,
+                                                  LOGSTRINGS_THREADSTATES_RADIO_RXTIMEOUT
+                                                 };
+
 
 
 /****************************
  *  Construction Functions  *
  ****************************/
 
+//Construct Thread State Log Function, constructs a new string to log a thread state machine change
+uint32_t constructThreadStateLog(uint8_t *stringBuffer, const uint8_t *threadName, const uint8_t *oldState, const uint8_t *newState)
+{
+    uint32_t stringLength;   //Create a new variable to use for tracking the length of the string being constructed
+    uint32_t sectionLength;  //Declare another variable to use for storing the length of each section being appended to the string
+
+    stringLength = strlen(threadName);               //Determine the length of the string for the threads name
+    memcpy(stringBuffer, threadName, stringLength);  //Copy the thread name string into the string buffer
+
+    sectionLength = strlen(oldState);                              //Get the length of the string for the next section
+    memcpy(stringBuffer + stringLength, oldState, sectionLength);  //Append the string for the previous state onto the end of the string buffer
+    stringLength += sectionLength;                                 //Recalculate the length of the string with the new section included
+
+    memcpy(stringBuffer + stringLength, LOGSTRINGS_ARROW, 0x00000004);  //Append the arrow to the end of the string
+    stringLength += 0x00000004;                                         //Recalculate the length of the string with the arrow ended
+
+    sectionLength = strlen(newState);                              //Get the length of the string for the next section
+    memcpy(stringBuffer + stringLength, newState, sectionLength);  //Append the string for the new state onto the end of the string buffer
+    stringLength += sectionLength;                                 //Recalculate the length of the string with the new section included
+
+    stringBuffer[stringLength++] = 0x0A;  //End the string with a new line character
+    stringBuffer[stringLength++] = 0x00;  //Null terminate the string
+
+    return stringLength;  //Leave the function returning the final length of the constructed string
+}
 
 //Construct Measurement Log Function, constructs a new string to log the provided measurement results
 uint32_t constructMeasurementLog(uint8_t *stringBuffer, const float *temperature, const float *humidity, const float *pressure)

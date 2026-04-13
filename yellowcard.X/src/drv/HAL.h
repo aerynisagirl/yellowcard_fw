@@ -20,7 +20,7 @@ typedef enum
 
 
 //Define any variables that are external to this
-extern volatile uint8_t dmaBufferTxUART[];  //Used as a buffer for UART transmissions that occur using the DMA
+extern uint8_t dmaBufferTxUART[];  //Used as a buffer for UART transmissions that occur using the DMA
 
 
 //System Oscillator Functions
@@ -39,8 +39,10 @@ extern uint32_t readFromI2C(uint32_t address,         //Read from I2C Function, 
 //UART Functions
 extern void writeToUART(const uint8_t *bytes,  //Write to UART Function, sends the provided array of bytes out the serial port through UART2
                         uint32_t length);
-extern void startTxUART(const uint8_t *bytes,     //Start Transmission UART Function, begins sending the provided string over UART
-                        const uint32_t *length);
+
+//DMA Functions
+extern void startTransferDMA3(const uint8_t *bytes,  //Begin Transfer DMA 3 Function, configures DMA Channel 3 to begin using the provided byte array as the source pointer
+                              uint32_t length);
 
 
 #endif

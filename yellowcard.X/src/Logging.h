@@ -26,8 +26,39 @@ extern const uint8_t __attribute__ ((space(prog), section(".logging_constants"))
 
 extern const uint8_t* __attribute__ ((space(prog), section(".logging_constants_ptrs"))) logConstants_packetTypeLookup[];
 
+//String constant flash memory allocation
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_ARROW[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADNAME_SENSOR[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADNAME_RADIO[];
+
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_SENSOR_SLEEP[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_SENSOR_STARTMEASUREMENTS[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_SENSOR_GETPRESSURE[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_SENSOR_GETTEMPERATURE[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_SENSOR_REPORTMEASUREMENTS[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_SENSOR_MEASUREFAIL[];
+
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_RADIO_SLEEP[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_RADIO_SLEEPTX[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_RADIO_SLEEPRX[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_RADIO_IDLE[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_RADIO_PROCESSINTERRUPT[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_RADIO_STARTTX[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_RADIO_STARTRX[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_RADIO_TXDONE[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_RADIO_RXDONE[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_RADIO_RECEIVEPACKET[];
+extern const uint8_t __attribute__ ((space(prog), section(".strings"))) LOGSTRINGS_THREADSTATES_RADIO_RXTIMEOUT[];
+
+extern const uint8_t* __attribute__ ((space(prog), section(".stringptrs"))) LOGSTRINGS_THREADSTATES_SENSOR[];
+extern const uint8_t* __attribute__ ((space(prog), section(".stringptrs"))) LOGSTRINGS_THREADSTATES_RADIO[];
+
 
 //Define prototypes for functions used in the Logging source file
+extern uint32_t constructThreadStateLog(uint8_t *stringBuffer,     //Construct Thread State Log Function, constructs a new string to log a thread state machine change
+                                        const uint8_t *threadName,
+                                        const uint8_t *oldState,
+                                        const uint8_t *newState);
 extern uint32_t constructMeasurementLog(uint8_t *stringBuffer,     //Construct Measurement Log Function, constructs a new string to log the provided measurement results
                                         const float *temperature,
                                         const float *humidity,

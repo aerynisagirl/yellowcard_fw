@@ -53,10 +53,10 @@
 
 //Import any libraries used by this file
 #include <xc.h>                     //Include the primary header used by the XC32 compile
-#include "drv/DPS368/DPS368.h"      //Include the driver for the DPS368 barometric pressure sensor
-#include "drv/SHT4x/SHT4x.h"        //Include the driver for the SHT4x temperature and humidity sensor
-#include "drv/SSD1803A/SSD1803A.h"  //Include the driver for the SSD1803A LCD display controller IC
-#include "drv/SX1231H/SX1231H.h"    //Include the driver for the SX1231H sub-1GHz radio IC
+//#include "drv/DPS368/DPS368.h"      //Include the driver for the DPS368 barometric pressure sensor
+//#include "drv/SHT4x/SHT4x.h"        //Include the driver for the SHT4x temperature and humidity sensor
+//#include "drv/SSD1803A/SSD1803A.h"  //Include the driver for the SSD1803A LCD display controller IC
+//#include "drv/SX1231H/SX1231H.h"    //Include the driver for the SX1231H sub-1GHz radio IC
 #include "Interrupts.h"             //Include the Interrupts header file, contains all interrupt related functions of the application
 //#include "Application.h"            //Inlcude the Application header file, contains the application program and all associated threads/state machines
 //#include "PacketStructures.h"       //Include the packet structures header file to use for handling packet creation
@@ -67,7 +67,11 @@
 #endif
 
 
-//Define any variables that are external to this file
+//Application Configuration flash memory allocation
+extern const uint16_t __attribute__ ((space(prog), section(".config"))) configNodeID;
+extern const uint32_t __attribute__ ((space(prog), section(".config"))) configSampleInterval;
+extern const uint32_t __attribute__ ((space(prog), section(".config"))) configRadioCarrier;
+extern const uint16_t __attribute__ ((space(prog), section(".config"))) configRadioBitrate;
 
 
 //Program Run-time Functions
